@@ -1,7 +1,7 @@
 {
   "name": "aura-os",
   "version": "1.0.0",
-  "description": "Aura OS — with local bare server",
+  "description": "Aura OS",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"
