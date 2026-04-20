@@ -1,0 +1,1735 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Books — Aura</title>
+    <link rel="icon" href="/favicon.ico" sizes="any">
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700;800&amp;family=Inter:wght@300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+    <script>
+        (function() {
+            var presets = [
+                {a:'#8b5cf6',ad:'#7c3aed',al:'#c084fc',am:'#a78bfa',ar:'139,92,246',amr:'167,139,250',gr:'180,130,255',go:'160,100,255',gb:'rgba(180,130,255,0.13)',gbh:'rgba(200,160,255,0.26)',ts:'rgba(210,180,255,0.55)',tt:'rgba(180,140,255,0.30)',s1:'rgba(160,100,255,0.05)',s2:'rgba(160,100,255,0.09)',sh:'rgba(160,100,255,0.13)'},
+                {a:'#3b82f6',ad:'#2563eb',al:'#93c5fd',am:'#60a5fa',ar:'59,130,246',amr:'96,165,250',gr:'100,150,255',go:'60,100,255',gb:'rgba(100,150,255,0.13)',gbh:'rgba(130,180,255,0.26)',ts:'rgba(160,190,255,0.55)',tt:'rgba(120,160,255,0.30)',s1:'rgba(60,100,255,0.05)',s2:'rgba(60,100,255,0.09)',sh:'rgba(60,100,255,0.13)'},
+                {a:'#e11d6a',ad:'#be185d',al:'#fda4af',am:'#fb7aac',ar:'225,29,106',amr:'251,122,172',gr:'255,100,150',go:'255,50,100',gb:'rgba(255,100,150,0.13)',gbh:'rgba(255,140,180,0.26)',ts:'rgba(255,190,215,0.55)',tt:'rgba(255,150,185,0.30)',s1:'rgba(255,50,100,0.05)',s2:'rgba(255,50,100,0.09)',sh:'rgba(255,50,100,0.13)'},
+                {a:'#22c55e',ad:'#16a34a',al:'#86efac',am:'#4ade80',ar:'34,197,94',amr:'74,222,128',gr:'80,220,130',go:'40,200,90',gb:'rgba(80,220,130,0.13)',gbh:'rgba(110,240,160,0.26)',ts:'rgba(160,255,195,0.55)',tt:'rgba(120,220,155,0.30)',s1:'rgba(40,200,90,0.05)',s2:'rgba(40,200,90,0.09)',sh:'rgba(40,200,90,0.13)'},
+                {a:'#f97316',ad:'#ea580c',al:'#fdba74',am:'#fb923c',ar:'249,115,22',amr:'251,146,60',gr:'255,160,80',go:'255,120,30',gb:'rgba(255,160,80,0.13)',gbh:'rgba(255,190,110,0.26)',ts:'rgba(255,215,170,0.55)',tt:'rgba(255,185,130,0.30)',s1:'rgba(255,120,30,0.05)',s2:'rgba(255,120,30,0.09)',sh:'rgba(255,120,30,0.13)'},
+                {a:'#38bdf8',ad:'#0ea5e9',al:'#bae6fd',am:'#7dd3fc',ar:'56,189,248',amr:'125,211,252',gr:'120,210,255',go:'60,190,250',gb:'rgba(120,210,255,0.13)',gbh:'rgba(160,230,255,0.26)',ts:'rgba(185,230,255,0.55)',tt:'rgba(150,210,255,0.30)',s1:'rgba(60,190,250,0.05)',s2:'rgba(60,190,250,0.09)',sh:'rgba(60,190,250,0.13)'}
+            ];
+            var choice = presets[parseInt(localStorage.getItem('aura_wp_preset') || '0', 10)] || presets[0];
+            var root = document.documentElement.style;
+            root.setProperty('--accent', choice.a);
+            root.setProperty('--accent-dark', choice.ad);
+            root.setProperty('--accent-light', choice.al);
+            root.setProperty('--accent-mac', choice.am);
+            root.setProperty('--accent-rgb', choice.ar);
+            root.setProperty('--accent-mac-rgb', choice.amr);
+            root.setProperty('--glass-rgb', choice.gr);
+            root.setProperty('--glow-rgb', choice.go);
+            root.setProperty('--glass-border', choice.gb);
+            root.setProperty('--glass-border-hover', choice.gbh);
+            root.setProperty('--text-secondary', choice.ts);
+            root.setProperty('--text-tertiary', choice.tt);
+            root.setProperty('--surface-1', choice.s1);
+            root.setProperty('--surface-2', choice.s2);
+            root.setProperty('--surface-hover', choice.sh);
+        })();
+    </script>
+    <style>
+        :root {
+            --bg: #090610;
+            --bg-deep: #120b1f;
+            --paper: rgba(28, 18, 45, 0.88);
+            --paper-soft: rgba(255, 244, 222, 0.07);
+            --line: rgba(255, 230, 185, 0.07);
+            --accent: #8b5cf6;
+            --accent-dark: #7c3aed;
+            --accent-light: #c084fc;
+            --accent-mac: #a78bfa;
+            --accent-rgb: 139, 92, 246;
+            --glass-border: rgba(180,130,255,0.13);
+            --glass-border-hover: rgba(200,160,255,0.26);
+            --surface-1: rgba(160,100,255,0.05);
+            --surface-2: rgba(160,100,255,0.09);
+            --surface-hover: rgba(160,100,255,0.13);
+            --text: rgba(255,245,255,0.93);
+            --text-secondary: rgba(210,180,255,0.55);
+            --text-tertiary: rgba(180,140,255,0.30);
+            --font-ui: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            --font-display: 'Fraunces', Georgia, serif;
+            --radius-sm: 12px;
+            --radius-md: 18px;
+            --radius-lg: 24px;
+            --topbar-h: 72px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html, body {
+            min-height: 100%;
+        }
+
+        body {
+            font-family: var(--font-ui);
+            color: var(--text);
+            background:
+                radial-gradient(circle at 15% 15%, rgba(var(--accent-rgb), 0.14), transparent 28%),
+                radial-gradient(circle at 85% 20%, rgba(255, 190, 120, 0.10), transparent 24%),
+                radial-gradient(circle at 50% 100%, rgba(var(--accent-rgb), 0.10), transparent 34%),
+                linear-gradient(180deg, #08050f 0%, #0b0713 46%, #090610 100%);
+            overflow: hidden;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            background:
+                linear-gradient(rgba(255,255,255,0.018) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.016) 1px, transparent 1px);
+            background-size: 100% 38px, 38px 100%;
+            mask-image: radial-gradient(circle at center, black 45%, transparent 88%);
+            opacity: 0.35;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        button, input {
+            font: inherit;
+        }
+
+        .app-shell {
+            height: 100vh;
+            display: grid;
+            grid-template-rows: var(--topbar-h) 1fr;
+            position: relative;
+            z-index: 1;
+        }
+
+        .topbar {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 0 18px;
+            background: rgba(8, 5, 18, 0.84);
+            border-bottom: 1px solid var(--glass-border);
+            backdrop-filter: blur(32px) saturate(180%);
+            -webkit-backdrop-filter: blur(32px) saturate(180%);
+        }
+
+        .back-btn,
+        .icon-btn,
+        .action-btn,
+        .filter-pill,
+        .shelf-chip,
+        .empty-btn {
+            border: 1px solid var(--glass-border);
+            background: var(--surface-1);
+            color: var(--text);
+            transition: transform 0.18s ease, border-color 0.18s ease, background 0.18s ease, box-shadow 0.18s ease, color 0.18s ease;
+        }
+
+        .back-btn,
+        .icon-btn {
+            width: 42px;
+            height: 42px;
+            border-radius: 14px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .back-btn:hover,
+        .icon-btn:hover,
+        .action-btn:hover,
+        .filter-pill:hover,
+        .shelf-chip:hover,
+        .empty-btn:hover {
+            transform: translateY(-1px);
+            background: var(--surface-hover);
+            border-color: var(--glass-border-hover);
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            min-width: 0;
+        }
+
+        .brand-mark {
+            width: 44px;
+            height: 44px;
+            border-radius: 16px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background:
+                linear-gradient(145deg, rgba(255, 223, 164, 0.22), rgba(var(--accent-rgb), 0.28)),
+                rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 224, 180, 0.14);
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.12), 0 16px 36px rgba(0,0,0,0.28);
+        }
+
+        .brand-mark .material-symbols-outlined {
+            font-size: 23px;
+            color: #ffe4bc;
+            font-variation-settings: 'FILL' 1;
+        }
+
+        .brand-copy {
+            min-width: 0;
+        }
+
+        .brand-eyebrow {
+            font-size: 11px;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: rgba(255, 224, 180, 0.78);
+        }
+
+        .brand-title {
+            font-size: 18px;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .brand-title span {
+            color: #ffe2b0;
+            font-family: var(--font-display);
+            font-weight: 700;
+        }
+
+        .topbar-spacer {
+            flex: 1;
+        }
+
+        .search-wrap {
+            width: min(420px, 46vw);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 0 14px;
+            height: 44px;
+            border-radius: 999px;
+            border: 1px solid var(--glass-border);
+            background: rgba(255,255,255,0.035);
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.04);
+        }
+
+        .search-wrap:focus-within {
+            border-color: rgba(var(--accent-rgb), 0.52);
+            box-shadow: 0 0 0 3px rgba(var(--accent-rgb), 0.10);
+        }
+
+        .search-wrap .material-symbols-outlined {
+            font-size: 18px;
+            color: var(--text-tertiary);
+        }
+
+        #searchInput {
+            flex: 1;
+            border: none;
+            outline: none;
+            background: transparent;
+            color: var(--text);
+            font-size: 14px;
+            min-width: 0;
+        }
+
+        #searchInput::placeholder {
+            color: var(--text-tertiary);
+        }
+
+        .action-btn {
+            height: 44px;
+            padding: 0 18px;
+            border-radius: 999px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .action-btn.primary {
+            border: none;
+            color: white;
+            background: linear-gradient(135deg, #d07f18 0%, var(--accent-dark) 50%, var(--accent-mac) 100%);
+            box-shadow: 0 12px 28px rgba(var(--accent-rgb), 0.22);
+        }
+
+        .action-btn.primary:hover {
+            filter: brightness(1.08);
+        }
+
+        .topbar-note {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 0 14px;
+            height: 40px;
+            border-radius: 999px;
+            background: rgba(255, 226, 176, 0.08);
+            border: 1px solid rgba(255, 226, 176, 0.14);
+            color: rgba(255, 226, 176, 0.86);
+            font-size: 12px;
+            white-space: nowrap;
+        }
+
+        .main-layout {
+            min-height: 0;
+            display: grid;
+            grid-template-columns: minmax(0, 1.25fr) 390px;
+            gap: 18px;
+            padding: 18px;
+        }
+
+        .library-column {
+            min-width: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            min-height: 0;
+        }
+
+        .hero {
+            position: relative;
+            overflow: hidden;
+            border-radius: 30px;
+            border: 1px solid rgba(255, 226, 176, 0.12);
+            background:
+                linear-gradient(135deg, rgba(255, 218, 154, 0.16) 0%, rgba(var(--accent-rgb), 0.22) 38%, rgba(10, 7, 20, 0.98) 100%);
+            padding: 30px 30px 26px;
+            box-shadow: 0 22px 54px rgba(0,0,0,0.34);
+        }
+
+        .hero::after {
+            content: "";
+            position: absolute;
+            right: -70px;
+            bottom: -84px;
+            width: 260px;
+            height: 260px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255, 214, 150, 0.18) 0%, transparent 68%);
+        }
+
+        .hero-grid {
+            position: relative;
+            z-index: 1;
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) 280px;
+            gap: 22px;
+            align-items: end;
+        }
+
+        .hero-copy {
+            min-width: 0;
+        }
+
+        .hero-eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 9px;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            color: rgba(255, 228, 186, 0.84);
+            margin-bottom: 10px;
+        }
+
+        .hero-eyebrow span {
+            width: 24px;
+            height: 2px;
+            border-radius: 999px;
+            background: rgba(255, 228, 186, 0.7);
+        }
+
+        .hero-title {
+            font-family: var(--font-display);
+            font-size: clamp(32px, 4vw, 50px);
+            line-height: 0.95;
+            letter-spacing: -0.05em;
+            margin-bottom: 14px;
+            max-width: 12ch;
+        }
+
+        .hero-title strong {
+            color: #ffe1aa;
+            font-weight: 700;
+        }
+
+        .hero-description {
+            max-width: 60ch;
+            color: var(--text-secondary);
+            line-height: 1.65;
+            font-size: 14px;
+        }
+
+        .hero-actions {
+            margin-top: 18px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .hero-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            padding: 10px 14px;
+            border-radius: 999px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.08);
+            color: var(--text);
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .hero-stats {
+            display: grid;
+            gap: 10px;
+        }
+
+        .stat-card {
+            border-radius: 22px;
+            padding: 16px 18px;
+            background: rgba(10, 7, 20, 0.46);
+            border: 1px solid rgba(255,255,255,0.08);
+            backdrop-filter: blur(14px);
+        }
+
+        .stat-label {
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: rgba(255, 226, 176, 0.74);
+            margin-bottom: 6px;
+        }
+
+        .stat-value {
+            font-size: 24px;
+            font-weight: 800;
+            letter-spacing: -0.04em;
+            margin-bottom: 4px;
+        }
+
+        .stat-copy {
+            color: var(--text-secondary);
+            line-height: 1.5;
+            font-size: 12px;
+        }
+
+        .toolbar,
+        .results-panel,
+        .reader-panel {
+            border-radius: 28px;
+            border: 1px solid var(--glass-border);
+            background:
+                linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02)),
+                rgba(13, 9, 24, 0.92);
+            box-shadow: 0 22px 50px rgba(0,0,0,0.28);
+        }
+
+        .toolbar {
+            padding: 16px 18px;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .toolbar-head {
+            min-width: 190px;
+            margin-right: auto;
+        }
+
+        .toolbar-title {
+            font-size: 15px;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            margin-bottom: 4px;
+        }
+
+        .toolbar-subtitle {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        .shelf-strip,
+        .filter-strip {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .shelf-chip,
+        .filter-pill {
+            padding: 10px 14px;
+            border-radius: 999px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--text-secondary);
+        }
+
+        .shelf-chip.active,
+        .filter-pill.active {
+            color: #fff4e0;
+            border-color: rgba(255, 224, 180, 0.18);
+            background:
+                linear-gradient(135deg, rgba(255, 184, 89, 0.17), rgba(var(--accent-rgb), 0.22));
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.08);
+        }
+
+        .results-panel {
+            min-height: 0;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .results-head {
+            padding: 18px 20px 10px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .results-title {
+            font-size: 18px;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+        }
+
+        #resultsMeta {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        .results-grid {
+            min-height: 0;
+            overflow: auto;
+            padding: 18px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(174px, 1fr));
+            gap: 14px;
+            scrollbar-width: thin;
+            scrollbar-color: rgba(var(--accent-rgb), 0.28) transparent;
+        }
+
+        .results-grid::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .results-grid::-webkit-scrollbar-thumb {
+            background: rgba(var(--accent-rgb), 0.28);
+            border-radius: 999px;
+        }
+
+        .book-card {
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 22px;
+            background:
+                linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02)),
+                rgba(16, 11, 27, 0.96);
+            text-align: left;
+            cursor: pointer;
+            transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .book-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(var(--accent-rgb), 0.26);
+            box-shadow: 0 18px 30px rgba(0,0,0,0.28), 0 0 0 1px rgba(var(--accent-rgb), 0.12);
+        }
+
+        .book-card.selected {
+            border-color: rgba(255, 224, 180, 0.24);
+            box-shadow: 0 20px 36px rgba(0,0,0,0.32), 0 0 0 1px rgba(255, 224, 180, 0.10);
+        }
+
+        .book-cover {
+            position: relative;
+            aspect-ratio: 0.72;
+            background:
+                linear-gradient(160deg, rgba(var(--accent-rgb), 0.18), rgba(255, 199, 111, 0.14)),
+                #120d1f;
+            overflow: hidden;
+        }
+
+        .book-cover img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .book-cover-placeholder {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: rgba(255, 228, 186, 0.78);
+            background:
+                radial-gradient(circle at top, rgba(255, 224, 180, 0.14), transparent 60%),
+                linear-gradient(145deg, rgba(var(--accent-rgb), 0.22), rgba(255,255,255,0.03));
+        }
+
+        .book-cover-placeholder .material-symbols-outlined {
+            font-size: 48px;
+            font-variation-settings: 'FILL' 1;
+        }
+
+        .book-source {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            padding: 5px 9px;
+            border-radius: 999px;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            background: rgba(9, 6, 17, 0.72);
+            border: 1px solid rgba(255,255,255,0.09);
+            backdrop-filter: blur(14px);
+        }
+
+        .book-readiness {
+            position: absolute;
+            right: 10px;
+            bottom: 10px;
+            padding: 5px 9px;
+            border-radius: 999px;
+            font-size: 10px;
+            font-weight: 800;
+            background: rgba(255, 224, 180, 0.12);
+            color: #ffe4b4;
+            border: 1px solid rgba(255, 224, 180, 0.13);
+            backdrop-filter: blur(14px);
+        }
+
+        .book-body {
+            padding: 14px;
+        }
+
+        .book-title {
+            font-size: 14px;
+            font-weight: 800;
+            line-height: 1.35;
+            letter-spacing: -0.02em;
+            min-height: 38px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .book-author {
+            margin-top: 6px;
+            font-size: 12px;
+            color: var(--text-secondary);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .book-meta {
+            margin-top: 10px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .meta-pill {
+            padding: 4px 8px;
+            border-radius: 999px;
+            font-size: 10px;
+            font-weight: 700;
+            color: var(--text-secondary);
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.06);
+        }
+
+        .empty-state {
+            min-height: 100%;
+            padding: 34px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .empty-card {
+            max-width: 480px;
+            text-align: center;
+            border-radius: 26px;
+            padding: 26px;
+            border: 1px solid rgba(255,255,255,0.08);
+            background: rgba(255,255,255,0.03);
+        }
+
+        .empty-card .material-symbols-outlined {
+            font-size: 40px;
+            color: rgba(255, 224, 180, 0.78);
+            margin-bottom: 12px;
+            font-variation-settings: 'FILL' 1;
+        }
+
+        .empty-card h3 {
+            font-size: 22px;
+            margin-bottom: 8px;
+            font-family: var(--font-display);
+            font-weight: 700;
+        }
+
+        .empty-card p {
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 16px;
+        }
+
+        .empty-actions {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .empty-btn {
+            padding: 10px 14px;
+            border-radius: 999px;
+            cursor: pointer;
+            color: var(--text);
+            font-weight: 700;
+        }
+
+        .reader-panel {
+            min-height: 0;
+            display: grid;
+            grid-template-rows: auto 1fr;
+            overflow: hidden;
+        }
+
+        .reader-head {
+            padding: 18px 18px 14px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .reader-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            font-size: 11px;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: rgba(255, 228, 186, 0.78);
+            margin-bottom: 12px;
+        }
+
+        .reader-title {
+            font-size: 22px;
+            line-height: 1.15;
+            letter-spacing: -0.04em;
+            font-weight: 900;
+            margin-bottom: 8px;
+        }
+
+        .reader-author {
+            color: var(--text-secondary);
+            font-size: 13px;
+            margin-bottom: 12px;
+        }
+
+        .reader-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-bottom: 14px;
+        }
+
+        .reader-copy {
+            color: var(--text-secondary);
+            line-height: 1.65;
+            font-size: 13px;
+            display: -webkit-box;
+            -webkit-line-clamp: 5;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .reader-actions {
+            margin-top: 16px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .reader-link {
+            min-height: 42px;
+            padding: 0 14px;
+            border-radius: 14px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            border: 1px solid var(--glass-border);
+            background: var(--surface-1);
+            color: var(--text);
+            font-weight: 700;
+        }
+
+        .reader-link.primary {
+            border: none;
+            color: white;
+            background: linear-gradient(135deg, #d07f18 0%, var(--accent-dark) 55%, var(--accent-mac) 100%);
+            box-shadow: 0 12px 26px rgba(var(--accent-rgb), 0.2);
+        }
+
+        .reader-link:hover {
+            background: var(--surface-hover);
+            border-color: var(--glass-border-hover);
+        }
+
+        .reader-link.primary:hover {
+            background: linear-gradient(135deg, #dc891b 0%, var(--accent-dark) 55%, var(--accent-mac) 100%);
+        }
+
+        .reader-stage {
+            min-height: 0;
+            display: flex;
+            flex-direction: column;
+            padding: 16px 16px 18px;
+            gap: 12px;
+        }
+
+        .reader-preview-meta {
+            display: flex;
+            gap: 14px;
+            align-items: center;
+            padding: 12px 12px 0;
+        }
+
+        .reader-cover {
+            width: 72px;
+            height: 102px;
+            border-radius: 16px;
+            overflow: hidden;
+            flex-shrink: 0;
+            background:
+                linear-gradient(155deg, rgba(var(--accent-rgb), 0.22), rgba(255, 214, 145, 0.18)),
+                #110d1c;
+            border: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .reader-cover img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .reader-cover .material-symbols-outlined {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: rgba(255, 228, 186, 0.76);
+            font-size: 34px;
+            font-variation-settings: 'FILL' 1;
+        }
+
+        .reader-stage-copy {
+            min-width: 0;
+        }
+
+        .reader-stage-title {
+            font-size: 13px;
+            font-weight: 800;
+            line-height: 1.4;
+            margin-bottom: 6px;
+        }
+
+        .reader-stage-note {
+            font-size: 12px;
+            color: var(--text-secondary);
+            line-height: 1.55;
+        }
+
+        .reader-shell {
+            min-height: 0;
+            flex: 1;
+            border-radius: 22px;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.07);
+            background:
+                linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.01)),
+                rgba(10, 7, 20, 0.95);
+            position: relative;
+        }
+
+        .reader-shell iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            background: white;
+            display: none;
+        }
+
+        .reader-placeholder {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            gap: 10px;
+            padding: 24px;
+            color: var(--text-secondary);
+            background:
+                radial-gradient(circle at top, rgba(255, 224, 180, 0.08), transparent 36%),
+                linear-gradient(180deg, rgba(var(--accent-rgb), 0.08), rgba(255,255,255,0.015));
+        }
+
+        .reader-placeholder .material-symbols-outlined {
+            font-size: 44px;
+            color: rgba(255, 224, 180, 0.76);
+            font-variation-settings: 'FILL' 1;
+        }
+
+        .reader-placeholder h3 {
+            font-size: 22px;
+            font-family: var(--font-display);
+            color: var(--text);
+            font-weight: 700;
+        }
+
+        .reader-placeholder p {
+            max-width: 30ch;
+            line-height: 1.6;
+        }
+
+        .reader-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            padding: 8px 12px;
+            border-radius: 999px;
+            font-size: 11px;
+            font-weight: 700;
+            color: rgba(255, 224, 180, 0.86);
+            border: 1px solid rgba(255, 224, 180, 0.16);
+            background: rgba(255, 224, 180, 0.07);
+        }
+
+        .loading-dots::after {
+            content: "";
+            animation: dots 1.2s infinite steps(4);
+        }
+
+        @keyframes dots {
+            0% { content: ""; }
+            25% { content: "."; }
+            50% { content: ".."; }
+            75% { content: "..."; }
+            100% { content: ""; }
+        }
+
+        @media (max-width: 1180px) {
+            .main-layout {
+                grid-template-columns: 1fr;
+                overflow: auto;
+            }
+
+            .reader-panel {
+                min-height: 760px;
+            }
+        }
+
+        @media (max-width: 960px) {
+            body {
+                overflow: auto;
+            }
+
+            .app-shell {
+                height: auto;
+                min-height: 100vh;
+                grid-template-rows: auto 1fr;
+            }
+
+            .topbar {
+                padding: 14px;
+                flex-wrap: wrap;
+                gap: 10px;
+                height: auto;
+            }
+
+            .search-wrap {
+                order: 4;
+                width: 100%;
+            }
+
+            .topbar-spacer {
+                display: none;
+            }
+
+            .topbar-note {
+                order: 5;
+                width: 100%;
+                justify-content: center;
+                white-space: normal;
+                text-align: center;
+                height: auto;
+                min-height: 40px;
+                padding: 10px 14px;
+            }
+
+            .main-layout {
+                padding: 14px;
+            }
+
+            .hero-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .hero {
+                padding: 24px 20px 20px;
+                border-radius: 24px;
+            }
+
+            .toolbar,
+            .results-panel,
+            .reader-panel {
+                border-radius: 24px;
+            }
+
+            .results-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                padding: 14px;
+                gap: 12px;
+            }
+
+            .book-title {
+                min-height: 0;
+            }
+
+            .reader-stage {
+                padding: 12px;
+            }
+
+            .reader-preview-meta {
+                padding: 8px 4px 0;
+            }
+        }
+
+        @media (max-width: 420px) {
+            .results-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .action-btn,
+            .reader-link {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="app-shell">
+        <header class="topbar">
+            <a class="back-btn" href="index.html" aria-label="Back to home">
+                <span class="material-symbols-outlined">arrow_back</span>
+            </a>
+
+            <div class="brand">
+                <div class="brand-mark">
+                    <span class="material-symbols-outlined">auto_stories</span>
+                </div>
+                <div class="brand-copy">
+                    <div class="brand-eyebrow">Reader</div>
+                    <div class="brand-title">Aura <span>Books</span></div>
+                </div>
+            </div>
+
+            <div class="topbar-spacer"></div>
+
+            <label class="search-wrap" for="searchInput">
+                <span class="material-symbols-outlined">search</span>
+                <input id="searchInput" type="search" placeholder="Search a title, author, genre, or textbook">
+            </label>
+
+            <button id="searchBtn" class="action-btn primary" type="button">
+                <span class="material-symbols-outlined">menu_book</span>
+                Search
+            </button>
+
+            <div class="topbar-note">
+                <span class="material-symbols-outlined">gavel</span>
+                Opens legal previews, public-domain copies, and official borrow pages
+            </div>
+        </header>
+
+        <main class="main-layout">
+            <section class="library-column">
+                <section class="hero">
+                    <div class="hero-grid">
+                        <div class="hero-copy">
+                            <div class="hero-eyebrow"><span></span> Find nearly any book worth opening</div>
+                            <h1 class="hero-title">Search once, then <strong>read what’s available right now.</strong></h1>
+                            <p class="hero-description">
+                                Aura Books blends Google Books previews with Open Library borrowing and public-domain access,
+                                so you can jump from discovery to reading without bouncing across ten tabs.
+                            </p>
+                            <div class="hero-actions">
+                                <button class="action-btn primary shelf-jump" type="button" data-query="classic literature" data-label="Classics">
+                                    <span class="material-symbols-outlined">library_books</span>
+                                    Open classics
+                                </button>
+                                <button class="action-btn shelf-jump" type="button" data-query="science fiction novels" data-label="Sci-Fi">
+                                    <span class="material-symbols-outlined">rocket_launch</span>
+                                    Browse sci-fi
+                                </button>
+                                <div class="hero-chip">
+                                    <span class="material-symbols-outlined">book_5</span>
+                                    Best for previews, textbooks, classics, and borrowable editions
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="hero-stats">
+                            <div class="stat-card">
+                                <div class="stat-label">Sources</div>
+                                <div class="stat-value">2 live catalogs</div>
+                                <div class="stat-copy">Google Books for inline previews and Open Library for borrow or public-domain reading.</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-label">Reader Modes</div>
+                                <div class="stat-value">Preview or borrow</div>
+                                <div class="stat-copy">If a title can’t open inline, Aura gives you the best next official reading route.</div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="toolbar">
+                    <div class="toolbar-head">
+                        <div class="toolbar-title">Quick Shelves</div>
+                        <div class="toolbar-subtitle">Jump into a shelf, then narrow the results with a filter.</div>
+                    </div>
+
+                    <div class="shelf-strip" id="shelfStrip">
+                        <button class="shelf-chip active" type="button" data-query="popular fiction books" data-label="Trending">Trending</button>
+                        <button class="shelf-chip" type="button" data-query="classic literature" data-label="Classics">Classics</button>
+                        <button class="shelf-chip" type="button" data-query="fantasy novels" data-label="Fantasy">Fantasy</button>
+                        <button class="shelf-chip" type="button" data-query="romance novels" data-label="Romance">Romance</button>
+                        <button class="shelf-chip" type="button" data-query="biography memoir" data-label="Biography">Biography</button>
+                        <button class="shelf-chip" type="button" data-query="computer science textbook" data-label="Textbooks">Textbooks</button>
+                    </div>
+
+                    <div class="filter-strip" id="filterStrip">
+                        <button class="filter-pill active" type="button" data-filter="all">All</button>
+                        <button class="filter-pill" type="button" data-filter="inline">Read here</button>
+                        <button class="filter-pill" type="button" data-filter="borrowable">Borrow/access</button>
+                        <button class="filter-pill" type="button" data-filter="public">Public domain</button>
+                    </div>
+                </section>
+
+                <section class="results-panel">
+                    <div class="results-head">
+                        <div class="results-title" id="resultsTitle">Trending Books</div>
+                        <div id="resultsMeta">Loading shelf<span class="loading-dots"></span></div>
+                    </div>
+                    <div id="resultsGrid" class="results-grid"></div>
+                </section>
+            </section>
+
+            <aside class="reader-panel">
+                <div class="reader-head">
+                    <div class="reader-label">
+                        <span class="material-symbols-outlined">chrome_reader_mode</span>
+                        Reader
+                    </div>
+                    <div class="reader-title" id="readerTitle">Choose a book to start reading</div>
+                    <div class="reader-author" id="readerAuthor">Select any result to open its preview, source page, or borrow route.</div>
+                    <div class="reader-tags" id="readerTags"></div>
+                    <div class="reader-copy" id="readerDescription">
+                        Aura Books only opens legitimate previews, public-domain editions, or official library pages.
+                    </div>
+                    <div class="reader-actions">
+                        <a id="primaryAction" class="reader-link primary" href="#" target="_blank" rel="noreferrer noopener">
+                            <span class="material-symbols-outlined">book_2</span>
+                            Open source
+                        </a>
+                        <a id="secondaryAction" class="reader-link" href="#" target="_blank" rel="noreferrer noopener">
+                            <span class="material-symbols-outlined">open_in_new</span>
+                            View details
+                        </a>
+                    </div>
+                </div>
+
+                <div class="reader-stage">
+                    <div class="reader-preview-meta">
+                        <div class="reader-cover" id="readerCover"></div>
+                        <div class="reader-stage-copy">
+                            <div class="reader-stage-title" id="readerStageTitle">Waiting for a selection</div>
+                            <div class="reader-stage-note" id="readerStageNote">Search for a title or tap one of the shelves to load results.</div>
+                        </div>
+                    </div>
+
+                    <div class="reader-shell">
+                        <div id="readerPlaceholder" class="reader-placeholder">
+                            <span class="material-symbols-outlined">auto_stories</span>
+                            <div class="reader-status" id="readerStatus">
+                                <span class="material-symbols-outlined">verified</span>
+                                Legal reading only
+                            </div>
+                            <h3>Open a preview or borrow page</h3>
+                            <p>The selected book will appear here whenever the source allows embedded reading.</p>
+                        </div>
+                        <iframe id="readerFrame" title="Book preview"></iframe>
+                    </div>
+                </div>
+            </aside>
+        </main>
+    </div>
+
+    <script>
+        (function() {
+            var state = {
+                query: 'popular fiction books',
+                shelfLabel: 'Trending Books',
+                filter: 'all',
+                results: [],
+                visibleResults: [],
+                selectedId: null
+            };
+
+            var searchInput = document.getElementById('searchInput');
+            var searchBtn = document.getElementById('searchBtn');
+            var resultsGrid = document.getElementById('resultsGrid');
+            var resultsTitle = document.getElementById('resultsTitle');
+            var resultsMeta = document.getElementById('resultsMeta');
+            var shelfStrip = document.getElementById('shelfStrip');
+            var filterStrip = document.getElementById('filterStrip');
+            var primaryAction = document.getElementById('primaryAction');
+            var secondaryAction = document.getElementById('secondaryAction');
+            var readerTitle = document.getElementById('readerTitle');
+            var readerAuthor = document.getElementById('readerAuthor');
+            var readerTags = document.getElementById('readerTags');
+            var readerDescription = document.getElementById('readerDescription');
+            var readerCover = document.getElementById('readerCover');
+            var readerStageTitle = document.getElementById('readerStageTitle');
+            var readerStageNote = document.getElementById('readerStageNote');
+            var readerFrame = document.getElementById('readerFrame');
+            var readerPlaceholder = document.getElementById('readerPlaceholder');
+            var readerStatus = document.getElementById('readerStatus');
+            var shelfJumpButtons = document.querySelectorAll('.shelf-jump');
+
+            function escapeHtml(value) {
+                return String(value || '')
+                    .replace(/&/g, '&amp;')
+                    .replace(/</g, '&lt;')
+                    .replace(/>/g, '&gt;')
+                    .replace(/"/g, '&quot;')
+                    .replace(/'/g, '&#39;');
+            }
+
+            function stripHtml(value) {
+                return String(value || '').replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
+            }
+
+            function truncate(value, length) {
+                if (!value) return '';
+                return value.length > length ? value.slice(0, length - 1).trimEnd() + '…' : value;
+            }
+
+            function normalizeKey(value) {
+                return String(value || '')
+                    .toLowerCase()
+                    .replace(/[^a-z0-9]+/g, ' ')
+                    .trim();
+            }
+
+            function safeThumbnail(url) {
+                if (!url) return '';
+                return safeUrl(String(url).replace(/^http:\/\//i, 'https://'));
+            }
+
+            function safeUrl(url) {
+                if (!url) return '';
+                try {
+                    var parsed = new URL(String(url), window.location.href);
+                    return /^(https?:)$/i.test(parsed.protocol) ? parsed.toString() : '';
+                } catch (error) {
+                    return '';
+                }
+            }
+
+            function inferReadiness(item) {
+                if (item.embedUrl) return 'Read here';
+                if (item.borrowable) return 'Borrow';
+                if (item.accessible) return 'Access';
+                if (item.preview) return 'Preview';
+                if (item.publicDomain) return 'Public';
+                return 'Details';
+            }
+
+            function googleBadgeList(item) {
+                var badges = [];
+                if (item.fullView) badges.push('Full view');
+                else if (item.preview) badges.push('Preview');
+                if (item.publicDomain) badges.push('Public domain');
+                if (item.pageCount) badges.push(item.pageCount + ' pages');
+                if (item.year) badges.push(String(item.year));
+                if (item.category) badges.push(item.category);
+                return badges.slice(0, 4);
+            }
+
+            function openLibraryBadgeList(item) {
+                var badges = [];
+                if (item.publicDomain) badges.push('Public domain');
+                else if (item.borrowable) badges.push('Borrowable');
+                else if (item.accessible) badges.push('Accessible text');
+                if (item.hasFulltext) badges.push('Full text listed');
+                if (item.year) badges.push(String(item.year));
+                if (item.language) badges.push(item.language.toUpperCase());
+                return badges.slice(0, 4);
+            }
+
+            function normalizeGoogleBook(entry) {
+                var info = entry.volumeInfo || {};
+                var access = entry.accessInfo || {};
+                var viewability = access.viewability || 'NO_PAGES';
+                var hasPreview = viewability !== 'NO_PAGES' || access.webReaderLink;
+                var embeddable = Boolean(access.embeddable && hasPreview);
+                var authors = Array.isArray(info.authors) && info.authors.length ? info.authors.join(', ') : 'Unknown author';
+                var cleanDescription = truncate(stripHtml(info.description || ''), 260);
+
+                return {
+                    id: 'g-' + entry.id,
+                    source: 'Google Books',
+                    title: info.title || 'Untitled',
+                    author: authors,
+                    year: info.publishedDate ? info.publishedDate.slice(0, 4) : '',
+                    description: cleanDescription || 'Preview pages and metadata from Google Books.',
+                    thumbnail: safeThumbnail(info.imageLinks && (info.imageLinks.thumbnail || info.imageLinks.smallThumbnail)),
+                    pageCount: info.pageCount || '',
+                    category: Array.isArray(info.categories) && info.categories.length ? info.categories[0] : '',
+                    language: info.language || '',
+                    preview: hasPreview,
+                    publicDomain: Boolean(access.publicDomain),
+                    fullView: viewability === 'ALL_PAGES',
+                    borrowable: false,
+                    hasFulltext: viewability !== 'NO_PAGES',
+                    embedUrl: embeddable ? 'https://books.google.com/books?id=' + encodeURIComponent(entry.id) + '&printsec=frontcover&output=embed' : '',
+                    primaryUrl: access.webReaderLink || info.previewLink || info.infoLink || '',
+                    secondaryUrl: info.infoLink || info.previewLink || '',
+                    stageNote: embeddable
+                        ? 'This edition can be opened inside Aura Books.'
+                        : hasPreview
+                            ? 'This title has preview pages, but the source prefers opening them in a new tab.'
+                            : 'This title is listed for discovery, but no inline preview is available from Google Books.',
+                    badges: googleBadgeList({
+                        fullView: viewability === 'ALL_PAGES',
+                        preview: hasPreview,
+                        publicDomain: Boolean(access.publicDomain),
+                        pageCount: info.pageCount || '',
+                        year: info.publishedDate ? info.publishedDate.slice(0, 4) : '',
+                        category: Array.isArray(info.categories) && info.categories.length ? info.categories[0] : ''
+                    })
+                };
+            }
+
+            function normalizeOpenLibraryBook(doc) {
+                var ebookAccess = doc.ebook_access || 'no_ebook';
+                var iaId = Array.isArray(doc.ia) && doc.ia.length ? doc.ia[0] : '';
+                var publicDomain = ebookAccess === 'public';
+                var borrowable = ebookAccess === 'borrowable';
+                var accessible = ebookAccess === 'printdisabled';
+                var embedUrl = publicDomain && iaId ? 'https://archive.org/embed/' + encodeURIComponent(iaId) : '';
+                var author = Array.isArray(doc.author_name) && doc.author_name.length ? doc.author_name.join(', ') : 'Unknown author';
+                var bookUrl = doc.key ? 'https://openlibrary.org' + doc.key : 'https://openlibrary.org/';
+                var cleanLanguage = Array.isArray(doc.language) && doc.language.length ? doc.language[0] : '';
+
+                return {
+                    id: 'o-' + (doc.key || Math.random().toString(36).slice(2)),
+                    source: 'Open Library',
+                    title: doc.title || 'Untitled',
+                    author: author,
+                    year: doc.first_publish_year || '',
+                    description: publicDomain
+                        ? 'Public-domain reading is available from Open Library and the Internet Archive.'
+                        : borrowable
+                            ? 'Borrowable edition listed on Open Library.'
+                            : accessible
+                                ? 'Accessibility-enabled edition listed on Open Library.'
+                            : 'Catalog listing from Open Library with edition and availability details.',
+                    thumbnail: doc.cover_i ? 'https://covers.openlibrary.org/b/id/' + encodeURIComponent(doc.cover_i) + '-L.jpg' : '',
+                    pageCount: '',
+                    category: '',
+                    language: cleanLanguage,
+                    preview: publicDomain,
+                    publicDomain: publicDomain,
+                    fullView: publicDomain,
+                    borrowable: borrowable,
+                    accessible: accessible,
+                    hasFulltext: Boolean(doc.has_fulltext),
+                    embedUrl: embedUrl,
+                    primaryUrl: bookUrl,
+                    secondaryUrl: iaId ? 'https://archive.org/details/' + encodeURIComponent(iaId) : bookUrl,
+                    stageNote: publicDomain
+                        ? 'This item can usually be opened right inside the reader.'
+                        : borrowable
+                            ? 'Open the official borrow page to check out this title.'
+                            : accessible
+                                ? 'Open the official accessibility page for edition details and reading options.'
+                            : 'Open the catalog page for editions, libraries, and availability.',
+                    badges: openLibraryBadgeList({
+                        publicDomain: publicDomain,
+                        borrowable: borrowable,
+                        accessible: accessible,
+                        hasFulltext: Boolean(doc.has_fulltext),
+                        year: doc.first_publish_year || '',
+                        language: cleanLanguage
+                    })
+                };
+            }
+
+            async function fetchGoogleBooks(query) {
+                var response = await fetch(
+                    'https://www.googleapis.com/books/v1/volumes?q=' +
+                    encodeURIComponent(query) +
+                    '&printType=books&maxResults=20&orderBy=relevance'
+                );
+                if (!response.ok) throw new Error('Google Books lookup failed');
+                var data = await response.json();
+                return Array.isArray(data.items) ? data.items.map(normalizeGoogleBook) : [];
+            }
+
+            async function fetchOpenLibraryBooks(query) {
+                var response = await fetch(
+                    'https://openlibrary.org/search.json?q=' +
+                    encodeURIComponent(query) +
+                    '&limit=20'
+                );
+                if (!response.ok) throw new Error('Open Library lookup failed');
+                var data = await response.json();
+                return Array.isArray(data.docs) ? data.docs.map(normalizeOpenLibraryBook) : [];
+            }
+
+            function scoreBook(item) {
+                var score = 0;
+                if (item.embedUrl) score += 40;
+                if (item.fullView) score += 18;
+                if (item.publicDomain) score += 12;
+                if (item.borrowable) score += 10;
+                if (item.preview) score += 8;
+                if (item.thumbnail) score += 3;
+                if (item.source === 'Google Books') score += 1;
+                return score;
+            }
+
+            function dedupeBooks(items) {
+                var map = new Map();
+                items.forEach(function(item) {
+                    var key = normalizeKey(item.title) + '|' + normalizeKey(String(item.author).split(',')[0]);
+                    var existing = map.get(key);
+                    if (!existing || scoreBook(item) > scoreBook(existing)) {
+                        map.set(key, item);
+                    }
+                });
+                return Array.from(map.values()).sort(function(a, b) {
+                    return scoreBook(b) - scoreBook(a);
+                });
+            }
+
+            function bookMatchesFilter(item) {
+                if (state.filter === 'inline') return Boolean(item.embedUrl);
+                if (state.filter === 'borrowable') return Boolean(item.borrowable || item.accessible);
+                if (state.filter === 'public') return Boolean(item.publicDomain);
+                return true;
+            }
+
+            function setActiveButton(group, matcher) {
+                Array.prototype.forEach.call(group.querySelectorAll('button'), function(button) {
+                    button.classList.toggle('active', matcher(button));
+                });
+            }
+
+            function renderResults() {
+                resultsGrid.innerHTML = '';
+
+                if (!state.visibleResults.length) {
+                    resultsGrid.innerHTML =
+                        '<div class="empty-state">' +
+                            '<div class="empty-card">' +
+                                '<span class="material-symbols-outlined">menu_book</span>' +
+                                '<h3>No books matched that filter</h3>' +
+                                '<p>Try switching back to all results, searching a broader title, or opening a quick shelf with more available editions.</p>' +
+                                '<div class="empty-actions">' +
+                                    '<button class="empty-btn" type="button" data-query="classic literature">Classics</button>' +
+                                    '<button class="empty-btn" type="button" data-query="popular fiction books">Trending</button>' +
+                                    '<button class="empty-btn" type="button" data-filter="all">Show all</button>' +
+                                '</div>' +
+                            '</div>' +
+                        '</div>';
+                    return;
+                }
+
+                resultsGrid.innerHTML = state.visibleResults.map(function(book) {
+                    var badges = book.badges.map(function(badge) {
+                        return '<span class="meta-pill">' + escapeHtml(badge) + '</span>';
+                    }).join('');
+
+                    var cover = book.thumbnail
+                        ? '<img src="' + escapeHtml(book.thumbnail) + '" alt="' + escapeHtml(book.title) + ' cover" loading="lazy">'
+                        : '<div class="book-cover-placeholder"><span class="material-symbols-outlined">import_contacts</span></div>';
+
+                    return (
+                        '<button class="book-card' + (book.id === state.selectedId ? ' selected' : '') + '" type="button" data-id="' + escapeHtml(book.id) + '">' +
+                            '<div class="book-cover">' +
+                                cover +
+                                '<div class="book-source">' + escapeHtml(book.source) + '</div>' +
+                                '<div class="book-readiness">' + escapeHtml(inferReadiness(book)) + '</div>' +
+                            '</div>' +
+                            '<div class="book-body">' +
+                                '<div class="book-title">' + escapeHtml(book.title) + '</div>' +
+                                '<div class="book-author">' + escapeHtml(book.author) + '</div>' +
+                                '<div class="book-meta">' + badges + '</div>' +
+                            '</div>' +
+                        '</button>'
+                    );
+                }).join('');
+            }
+
+            function renderReader(book) {
+                if (!book) {
+                    readerTitle.textContent = 'Choose a book to start reading';
+                    readerAuthor.textContent = 'Select any result to open its preview, source page, or borrow route.';
+                    readerTags.innerHTML = '';
+                    readerDescription.textContent = 'Aura Books only opens legitimate previews, public-domain editions, or official library pages.';
+                    readerCover.innerHTML = '<span class="material-symbols-outlined">auto_stories</span>';
+                    readerStageTitle.textContent = 'Waiting for a selection';
+                    readerStageNote.textContent = 'Search for a title or tap one of the shelves to load results.';
+                    readerStatus.innerHTML = '<span class="material-symbols-outlined">verified</span>Legal reading only';
+                    primaryAction.href = '#';
+                    secondaryAction.href = '#';
+                    primaryAction.style.pointerEvents = 'none';
+                    secondaryAction.style.pointerEvents = 'none';
+                    readerFrame.style.display = 'none';
+                    readerFrame.src = 'about:blank';
+                    readerPlaceholder.style.display = 'flex';
+                    return;
+                }
+
+                readerTitle.textContent = book.title;
+                readerAuthor.textContent = book.author + (book.year ? ' • ' + book.year : '');
+                readerTags.innerHTML = book.badges.map(function(badge) {
+                    return '<span class="meta-pill">' + escapeHtml(badge) + '</span>';
+                }).join('');
+                readerDescription.textContent = book.description;
+                readerCover.innerHTML = book.thumbnail
+                    ? '<img src="' + escapeHtml(book.thumbnail) + '" alt="' + escapeHtml(book.title) + ' cover">'
+                    : '<span class="material-symbols-outlined">import_contacts</span>';
+                readerStageTitle.textContent = book.title;
+                readerStageNote.textContent = book.stageNote;
+                readerStatus.innerHTML =
+                    '<span class="material-symbols-outlined">bookmark_added</span>' +
+                    escapeHtml(book.source + ' • ' + inferReadiness(book));
+
+                primaryAction.href = safeUrl(book.primaryUrl) || safeUrl(book.secondaryUrl) || '#';
+                secondaryAction.href = safeUrl(book.secondaryUrl) || safeUrl(book.primaryUrl) || '#';
+                primaryAction.style.pointerEvents = primaryAction.href === '#' ? 'none' : '';
+                secondaryAction.style.pointerEvents = secondaryAction.href === '#' ? 'none' : '';
+
+                if (book.embedUrl) {
+                    primaryAction.innerHTML = '<span class="material-symbols-outlined">chrome_reader_mode</span>Read in source';
+                    secondaryAction.innerHTML = '<span class="material-symbols-outlined">open_in_new</span>View catalog';
+                    readerFrame.src = book.embedUrl;
+                    readerFrame.style.display = 'block';
+                    readerPlaceholder.style.display = 'none';
+                } else {
+                    primaryAction.innerHTML =
+                        '<span class="material-symbols-outlined">' + (book.borrowable ? 'library_add' : book.accessible ? 'visibility' : 'open_in_new') + '</span>' +
+                        (book.borrowable ? 'Borrow or open' : book.accessible ? 'Open access page' : 'Open source');
+                    secondaryAction.innerHTML = '<span class="material-symbols-outlined">info</span>View details';
+                    readerFrame.style.display = 'none';
+                    readerFrame.src = 'about:blank';
+                    readerPlaceholder.style.display = 'flex';
+                }
+            }
+
+            function applyFilter() {
+                state.visibleResults = state.results.filter(bookMatchesFilter);
+
+                if (!state.visibleResults.some(function(item) { return item.id === state.selectedId; })) {
+                    state.selectedId = state.visibleResults[0] ? state.visibleResults[0].id : null;
+                }
+
+                renderResults();
+                renderReader(state.visibleResults.find(function(item) { return item.id === state.selectedId; }) || null);
+
+                var visibleLabel = state.visibleResults.length + ' result' + (state.visibleResults.length === 1 ? '' : 's');
+                var filterCopy = state.filter === 'all'
+                    ? 'showing every source'
+                    : state.filter === 'inline'
+                        ? 'showing inline-readable titles'
+                        : state.filter === 'borrowable'
+                            ? 'showing borrow or access routes'
+                            : 'showing public-domain reading';
+
+                resultsMeta.textContent = visibleLabel + ' • ' + filterCopy;
+            }
+
+            async function runSearch(query, label) {
+                var finalQuery = String(query || '').trim();
+                if (!finalQuery) return;
+
+                state.query = finalQuery;
+                state.shelfLabel = label || '"' + finalQuery + '"';
+                resultsTitle.textContent = state.shelfLabel;
+                resultsMeta.innerHTML = 'Searching Google Books and Open Library<span class="loading-dots"></span>';
+                resultsGrid.innerHTML =
+                    '<div class="empty-state">' +
+                        '<div class="empty-card">' +
+                            '<span class="material-symbols-outlined">auto_stories</span>' +
+                            '<h3>Loading your shelf</h3>' +
+                            '<p>Pulling previews and borrowable editions from both sources now.</p>' +
+                        '</div>' +
+                    '</div>';
+                renderReader(null);
+                searchInput.value = finalQuery;
+
+                try {
+                    var responses = await Promise.allSettled([
+                        fetchGoogleBooks(finalQuery),
+                        fetchOpenLibraryBooks(finalQuery)
+                    ]);
+
+                    var items = [];
+                    responses.forEach(function(result) {
+                        if (result.status === 'fulfilled' && Array.isArray(result.value)) {
+                            items = items.concat(result.value);
+                        }
+                    });
+
+                    state.results = dedupeBooks(items);
+                    state.selectedId = state.results[0] ? state.results[0].id : null;
+                    applyFilter();
+
+                    if (!state.results.length) {
+                        resultsMeta.textContent = 'No matches found from the available sources';
+                    } else {
+                        var inlineCount = state.results.filter(function(item) { return Boolean(item.embedUrl); }).length;
+                        var borrowCount = state.results.filter(function(item) { return Boolean(item.borrowable || item.accessible); }).length;
+                        var visibleCount = state.visibleResults.length;
+                        resultsMeta.textContent =
+                            visibleCount + ' shown of ' + state.results.length + ' • ' +
+                            inlineCount + ' readable here • ' +
+                            borrowCount + ' official routes';
+                    }
+                } catch (error) {
+                    resultsMeta.textContent = 'Search failed';
+                    resultsGrid.innerHTML =
+                        '<div class="empty-state">' +
+                            '<div class="empty-card">' +
+                                '<span class="material-symbols-outlined">wifi_off</span>' +
+                                '<h3>The catalogs did not respond</h3>' +
+                                '<p>Try the search again in a moment. Google Books or Open Library may have temporarily rate-limited the browser.</p>' +
+                            '</div>' +
+                        '</div>';
+                    renderReader(null);
+                }
+            }
+
+            searchBtn.addEventListener('click', function() {
+                setActiveButton(shelfStrip, function() { return false; });
+                runSearch(searchInput.value, '"' + searchInput.value.trim() + '"');
+            });
+
+            searchInput.addEventListener('keydown', function(event) {
+                if (event.key === 'Enter') {
+                    event.preventDefault();
+                    searchBtn.click();
+                }
+            });
+
+            shelfStrip.addEventListener('click', function(event) {
+                var button = event.target.closest('button[data-query]');
+                if (!button) return;
+                setActiveButton(shelfStrip, function(current) { return current === button; });
+                runSearch(button.dataset.query, button.dataset.label + ' Books');
+            });
+
+            Array.prototype.forEach.call(shelfJumpButtons, function(button) {
+                button.addEventListener('click', function() {
+                    setActiveButton(shelfStrip, function(current) {
+                        return current.dataset.query === button.dataset.query;
+                    });
+                    runSearch(button.dataset.query, button.dataset.label + ' Books');
+                });
+            });
+
+            filterStrip.addEventListener('click', function(event) {
+                var button = event.target.closest('button[data-filter]');
+                if (!button) return;
+                state.filter = button.dataset.filter;
+                setActiveButton(filterStrip, function(current) { return current === button; });
+                applyFilter();
+            });
+
+            resultsGrid.addEventListener('click', function(event) {
+                var card = event.target.closest('.book-card');
+                var queryButton = event.target.closest('.empty-btn[data-query]');
+                var filterButton = event.target.closest('.empty-btn[data-filter]');
+
+                if (queryButton) {
+                    setActiveButton(shelfStrip, function() { return false; });
+                    runSearch(queryButton.dataset.query, '"' + queryButton.dataset.query + '"');
+                    return;
+                }
+
+                if (filterButton) {
+                    state.filter = filterButton.dataset.filter;
+                    setActiveButton(filterStrip, function(current) { return current.dataset.filter === state.filter; });
+                    applyFilter();
+                    return;
+                }
+
+                if (!card) return;
+                state.selectedId = card.dataset.id;
+                renderResults();
+                renderReader(state.visibleResults.find(function(item) { return item.id === state.selectedId; }) || null);
+            });
+
+            runSearch(state.query, state.shelfLabel);
+        })();
+    </script>
+</body>
+</html>

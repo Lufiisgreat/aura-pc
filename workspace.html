@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aura — Workspace</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+    <style>
+        :root {
+            --accent: #8b5cf6;
+            --accent-light: #a78bfa;
+            --accent-dark: #6d28d9;
+            --bg: #07040f;
+            --bg2: #0d0820;
+            --text: rgba(255,245,255,0.93);
+            --text2: rgba(210,180,255,0.6);
+            --text3: rgba(180,140,255,0.35);
+            --border: rgba(180,130,255,0.13);
+            --surface: rgba(160,100,255,0.06);
+            --surface2: rgba(160,100,255,0.10);
+            --font: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html, body { height: 100%; background: var(--bg); color: var(--text); font-family: var(--font); overflow: hidden; }
+
+        .workspace {
+            display: flex; flex-direction: column; height: 100vh;
+            padding: 24px;
+            overflow-y: auto;
+        }
+        .workspace::-webkit-scrollbar { width: 4px; }
+        .workspace::-webkit-scrollbar-thumb { background: rgba(180,130,255,0.2); border-radius: 2px; }
+
+        .ws-header {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+        .ws-logo {
+            font-size: 32px;
+            font-weight: 900;
+            letter-spacing: -0.03em;
+            background: linear-gradient(135deg, #fff, var(--accent-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 6px;
+        }
+        .ws-sub {
+            font-size: 13px;
+            color: var(--text2);
+        }
+        .ws-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            background: rgba(239,68,68,0.15);
+            border: 1px solid rgba(239,68,68,0.3);
+            border-radius: 20px;
+            padding: 3px 10px;
+            font-size: 10px;
+            font-weight: 700;
+            color: #f87171;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            margin-top: 8px;
+        }
+
+        .ws-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 14px;
+            max-width: 900px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .ws-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+        }
+        .ws-card:hover {
+            background: var(--surface2);
+            border-color: rgba(167,139,250,0.3);
+            transform: translateY(-3px);
+            box-shadow: 0 12px 32px rgba(0,0,0,0.4);
+        }
+        .ws-card-icon {
+            width: 48px; height: 48px;
+            border-radius: 14px;
+            background: rgba(139,92,246,0.15);
+            display: flex; align-items: center; justify-content: center;
+            margin: 0 auto 12px;
+        }
+        .ws-card-icon .material-symbols-outlined { font-size: 24px; color: var(--accent-light); }
+        .ws-card-title { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
+        .ws-card-desc { font-size: 11px; color: var(--text3); line-height: 1.4; }
+        .ws-card-tag {
+            display: inline-block;
+            margin-top: 10px;
+            font-size: 9px;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--accent-light);
+            background: rgba(139,92,246,0.15);
+            padding: 2px 8px;
+            border-radius: 4px;
+        }
+
+        .ws-empty {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text3);
+        }
+        .ws-empty .material-symbols-outlined { font-size: 48px; opacity: 0.4; margin-bottom: 12px; }
+        .ws-empty p { font-size: 14px; }
+    </style>
+</head>
+<body>
+    <div class="workspace">
+        <div class="ws-header">
+            <div class="ws-logo">Workspace</div>
+            <div class="ws-sub">Experimental features & tools</div>
+            <div class="ws-badge"><span class="material-symbols-outlined" style="font-size:10px;">science</span> Experimental</div>
+        </div>
+
+        <div class="ws-grid" id="ws-grid">
+            <div class="ws-empty">
+                <span class="material-symbols-outlined">science</span>
+                <p>No experimental features yet</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Define experimental features here
+        const experiments = [
+            // Add experiments as they are built
+            // { id: 'notes', icon: 'edit_note', title: 'Notes', desc: 'Quick notes & productivity tools', tag: 'Coming Soon' },
+        ];
+
+        const grid = document.getElementById('ws-grid');
+
+        if (experiments.length === 0) {
+            grid.innerHTML = `
+                <div class="ws-empty">
+                    <span class="material-symbols-outlined">science</span>
+                    <p>No experimental features yet — check back soon!</p>
+                </div>
+            `;
+        } else {
+            grid.innerHTML = experiments.map(exp => `
+                <div class="ws-card" data-id="${exp.id}">
+                    <div class="ws-card-icon"><span class="material-symbols-outlined">${exp.icon}</span></div>
+                    <div class="ws-card-title">${exp.title}</div>
+                    <div class="ws-card-desc">${exp.desc}</div>
+                    <div class="ws-card-tag">${exp.tag || 'New'}</div>
+                </div>
+            `).join('');
+        }
+    </script>
+</body>
+</html>

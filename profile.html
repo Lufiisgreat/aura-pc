@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile — Aura</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
+    <style>
+        :root {
+            --accent: #8b5cf6;
+            --accent-light: #a78bfa;
+            --accent-dark: #6d28d9;
+            --text-primary: rgba(255,245,255,0.93);
+            --text-secondary: rgba(210,180,255,0.55);
+            --text-tertiary: rgba(180,140,255,0.30);
+            --surface-1: rgba(160,100,255,0.05);
+            --surface-2: rgba(160,100,255,0.08);
+            --surface-hover: rgba(160,100,255,0.13);
+            --glass-border: rgba(180,130,255,0.13);
+            --font: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            background: #07040f;
+            color: var(--text-primary);
+            font-family: var(--font);
+            height: 100vh;
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+
+        /* ── Banner ── */
+        .banner {
+            height: 110px;
+            width: 100%;
+            position: relative;
+            flex-shrink: 0;
+            transition: background 0.4s;
+        }
+
+        /* ── Avatar area ── */
+        .avatar-area {
+            padding: 0 22px;
+            margin-top: -38px;
+            display: flex;
+            align-items: flex-end;
+            gap: 14px;
+            margin-bottom: 14px;
+        }
+        .avatar {
+            width: 76px; height: 76px;
+            border-radius: 20px;
+            background: rgba(20,10,40,0.97);
+            border: 3px solid #07040f;
+            font-size: 38px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            position: relative;
+            cursor: pointer;
+            overflow: hidden;
+        }
+        .avatar img {
+            width: 100%; height: 100%;
+            object-fit: cover;
+            border-radius: 16px;
+        }
+        .avatar-overlay {
+            position: absolute; inset: 0;
+            background: rgba(0,0,0,0.55);
+            border-radius: 16px;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+        .avatar:hover .avatar-overlay { display: flex; }
+        .avatar-overlay .material-symbols-outlined { font-size: 22px; }
+        .avatar-actions { flex: 1; padding-bottom: 4px; display: flex; gap: 8px; }
+
+        /* ── Buttons ── */
+        .btn {
+            display: inline-flex; align-items: center; gap: 6px;
+            padding: 7px 16px;
+            border-radius: 10px;
+            border: 1px solid var(--glass-border);
+            background: var(--surface-1);
+            color: var(--text-primary);
+            font-size: 12px; font-weight: 600; font-family: var(--font);
+            cursor: pointer;
+            transition: background 0.15s, border-color 0.15s, transform 0.1s;
+        }
+        .btn:hover { background: var(--surface-hover); border-color: rgba(180,130,255,0.25); }
+        .btn:active { transform: scale(0.97); }
+        .btn.primary {
+            background: linear-gradient(135deg, var(--accent-dark), var(--accent-light));
+            border-color: transparent;
+            box-shadow: 0 4px 14px rgba(109,40,217,0.4);
+        }
+        .btn.primary:hover { filter: brightness(1.1); }
+        .btn .material-symbols-outlined { font-size: 15px; }
+
+        /* ── Content ── */
+        .content { padding: 0 22px 32px; }
+        .display-name { font-size: 20px; font-weight: 800; margin-bottom: 2px; }
+        .handle-line { font-size: 12px; color: var(--text-secondary); margin-bottom: 10px; }
+
+        /* ── Status badge ── */
+        .status-badge {
+            display: inline-flex; align-items: center; gap: 6px;
+            padding: 4px 12px;
+            border-radius: 20px;
+            background: var(--surface-2);
+            border: 1px solid var(--glass-border);
+            font-size: 12px; color: var(--text-secondary);
+            margin-bottom: 14px;
+        }
+        .status-dot {
+            width: 7px; height: 7px;
+            border-radius: 50%;
+            background: #22c55e;
+            flex-shrink: 0;
+        }
+        .status-dot.away   { background: #f59e0b; }
+        .status-dot.busy   { background: #ef4444; }
+        .status-dot.offline { background: var(--text-tertiary); }
+
+        /* ── Bio ── */
+        .bio { font-size: 13px; color: var(--text-secondary); line-height: 1.55; margin-bottom: 18px; min-height: 18px; }
+
+        /* ── Divider ── */
+        .divider { height: 1px; background: var(--glass-border); margin: 14px 0; }
+
+        /* ── Stats ── */
+        .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 18px; }
+        .stat-card {
+            background: var(--surface-1);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            padding: 12px 8px;
+            text-align: center;
+        }
+        .stat-value { font-size: 22px; font-weight: 800; color: var(--accent-light); margin-bottom: 2px; }
+        .stat-label { font-size: 10px; color: var(--text-tertiary); text-transform: uppercase; letter-spacing: 0.08em; }
+
+        /* ── Info rows ── */
+        .section-label { font-size: 10px; font-weight: 700; color: var(--text-tertiary); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 8px; }
+        .info-row { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--text-secondary); margin-bottom: 7px; }
+        .info-row .material-symbols-outlined { font-size: 15px; color: var(--text-tertiary); }
+
+        /* ── Edit form ── */
+        .view-panel.hidden { display: none; }
+        .edit-panel { display: none; }
+        .edit-panel.active { display: block; }
+
+        .field { margin-bottom: 13px; }
+        .field-label { font-size: 10px; font-weight: 700; color: var(--text-tertiary); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 5px; }
+        .input {
+            width: 100%;
+            background: rgba(160,100,255,0.07);
+            border: 1px solid rgba(180,130,255,0.18);
+            border-radius: 9px;
+            padding: 9px 12px;
+            font-size: 13px; font-family: var(--font);
+            color: var(--text-primary);
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        .input::placeholder { color: var(--text-tertiary); }
+        .input:focus { border-color: rgba(167,139,250,0.55); box-shadow: 0 0 0 3px rgba(139,92,246,0.12); }
+        textarea.input { resize: none; height: 68px; line-height: 1.5; }
+
+        /* ── Status picker ── */
+        .status-options { display: flex; gap: 7px; flex-wrap: wrap; }
+        .status-opt {
+            display: flex; align-items: center; gap: 6px;
+            padding: 6px 12px;
+            border-radius: 20px;
+            border: 1px solid var(--glass-border);
+            background: var(--surface-1);
+            font-size: 12px; color: var(--text-secondary);
+            cursor: pointer;
+            transition: background 0.15s, border-color 0.15s;
+        }
+        .status-opt:hover { background: var(--surface-hover); }
+        .status-opt.selected { border-color: var(--accent-light); background: rgba(139,92,246,0.15); color: var(--text-primary); }
+
+        /* ── Banner picker ── */
+        .banner-options { display: flex; gap: 7px; flex-wrap: wrap; }
+        .banner-opt {
+            width: 44px; height: 28px;
+            border-radius: 7px;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: border-color 0.15s, transform 0.1s;
+        }
+        .banner-opt:hover { transform: scale(1.1); }
+        .banner-opt.selected { border-color: var(--accent-light); }
+
+        /* ── Avatar picker ── */
+        .avatar-picker {
+            display: none;
+            position: fixed;
+            z-index: 999;
+            background: rgba(16,8,32,0.98);
+            border: 1px solid var(--glass-border);
+            border-radius: 14px;
+            padding: 14px;
+            box-shadow: 0 16px 48px rgba(0,0,0,0.6);
+            width: 230px;
+        }
+        .avatar-picker.open { display: block; }
+        .picker-label { font-size: 10px; font-weight: 700; color: var(--text-tertiary); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px; }
+        .emoji-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 4px; margin-bottom: 10px; }
+        .emoji-btn {
+            font-size: 20px; height: 34px;
+            display: flex; align-items: center; justify-content: center;
+            border-radius: 7px; cursor: pointer;
+            transition: background 0.1s;
+        }
+        .emoji-btn:hover { background: var(--surface-hover); }
+        .img-upload-label {
+            display: block; width: 100%;
+            padding: 8px;
+            background: var(--surface-1);
+            border: 1px dashed rgba(180,130,255,0.22);
+            border-radius: 8px;
+            color: var(--text-secondary);
+            font-size: 12px; font-family: var(--font);
+            cursor: pointer; text-align: center;
+            transition: background 0.15s;
+        }
+        .img-upload-label:hover { background: var(--surface-hover); }
+        .remove-img-btn {
+            display: none;
+            width: 100%; margin-top: 6px;
+            padding: 7px;
+            background: rgba(239,68,68,0.1);
+            border: 1px solid rgba(239,68,68,0.25);
+            border-radius: 8px;
+            color: #f87171;
+            font-size: 12px; font-family: var(--font);
+            cursor: pointer; text-align: center;
+            transition: background 0.15s;
+        }
+        .remove-img-btn:hover { background: rgba(239,68,68,0.18); }
+
+        .edit-actions { display: flex; gap: 8px; margin-top: 6px; }
+
+        /* ── Scrollbar ── */
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: rgba(180,130,255,0.2); border-radius: 2px; }
+    </style>
+</head>
+<body>
+
+<div class="banner" id="banner"></div>
+
+<div class="avatar-area">
+    <div class="avatar" id="avatar-btn" title="Change avatar">
+        <span id="avatar-emoji">🌙</span>
+        <img id="avatar-img" src="" style="display:none;" alt="avatar">
+        <div class="avatar-overlay"><span class="material-symbols-outlined">photo_camera</span></div>
+    </div>
+    <div class="avatar-actions">
+        <button class="btn primary" id="edit-btn"><span class="material-symbols-outlined">edit</span> Edit Profile</button>
+    </div>
+</div>
+
+<!-- Avatar picker -->
+<div class="avatar-picker" id="avatar-picker">
+    <div class="picker-label">Choose emoji</div>
+    <div class="emoji-grid" id="emoji-grid"></div>
+    <label class="img-upload-label">
+        <span class="material-symbols-outlined" style="font-size:14px;vertical-align:middle;margin-right:4px;">upload</span>Upload photo
+        <input type="file" id="avatar-file" accept="image/*" style="display:none;">
+    </label>
+    <button class="remove-img-btn" id="remove-img-btn">Remove photo</button>
+</div>
+
+<div class="content">
+
+    <!-- VIEW -->
+    <div id="view-panel" class="view-panel">
+        <div class="display-name" id="view-name">User</div>
+        <div class="handle-line" id="view-handle">@user · Aura OS</div>
+
+        <div class="status-badge">
+            <div class="status-dot" id="view-status-dot"></div>
+            <span id="view-status-text">Online</span>
+        </div>
+
+        <div class="bio" id="view-bio">No bio yet.</div>
+
+        <div class="divider"></div>
+
+        <div class="section-label">Activity</div>
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-value" id="stat-logins">0</div>
+                <div class="stat-label">Logins</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="stat-days">1</div>
+                <div class="stat-label">Days Active</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="stat-streak">1</div>
+                <div class="stat-label">Streak</div>
+            </div>
+        </div>
+
+        <div class="section-label">Info</div>
+        <div class="info-row"><span class="material-symbols-outlined">calendar_today</span> Joined <span id="view-joined">—</span></div>
+        <div class="info-row"><span class="material-symbols-outlined">schedule</span> Last seen <span id="view-lastseen">just now</span></div>
+    </div>
+
+    <!-- EDIT -->
+    <div id="edit-panel" class="edit-panel">
+        <div class="section-label" style="margin-bottom:14px;">Edit Profile</div>
+
+        <div class="field">
+            <div class="field-label">Display Name</div>
+            <input class="input" id="edit-name" type="text" maxlength="30" placeholder="Your name">
+        </div>
+        <div class="field">
+            <div class="field-label">Bio</div>
+            <textarea class="input" id="edit-bio" maxlength="120" placeholder="Tell us something about yourself…"></textarea>
+        </div>
+        <div class="field">
+            <div class="field-label">Status</div>
+            <div class="status-options" id="status-options"></div>
+        </div>
+        <div class="field">
+            <div class="field-label">Banner</div>
+            <div class="banner-options" id="banner-options"></div>
+        </div>
+
+        <div class="edit-actions">
+            <button class="btn primary" id="save-btn"><span class="material-symbols-outlined">check</span> Save</button>
+            <button class="btn" id="cancel-btn"><span class="material-symbols-outlined">close</span> Cancel</button>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    const BANNERS = [
+        'linear-gradient(135deg,#3b0764,#7c3aed,#a78bfa)',
+        'linear-gradient(135deg,#0f172a,#1e3a5f,#3b82f6)',
+        'linear-gradient(135deg,#0d1a0f,#14532d,#22c55e)',
+        'linear-gradient(135deg,#1a0a0a,#7f1d1d,#ef4444)',
+        'linear-gradient(135deg,#1a1000,#713f12,#f59e0b)',
+        'linear-gradient(135deg,#0f0f1a,#312e81,#818cf8)',
+        'linear-gradient(135deg,#0d0d0d,#1f1f1f,#525252)',
+        'linear-gradient(135deg,#1a0a1a,#86198f,#e879f9)',
+    ];
+
+    const STATUSES = [
+        { label: 'Online',  cls: '',        color: '#22c55e' },
+        { label: 'Away',    cls: 'away',    color: '#f59e0b' },
+        { label: 'Busy',    cls: 'busy',    color: '#ef4444' },
+        { label: 'Offline', cls: 'offline', color: 'rgba(180,140,255,0.3)' },
+    ];
+
+    const EMOJIS = [
+        '🌙','⭐','🌟','💜','🎮','🎵','🔮','🦋',
+        '🐉','🌊','🔥','❄️','🌸','🌺','🍀','🎭',
+        '🚀','💎','🦁','🐺','🦊','🐸','🐼','👾',
+    ];
+
+    const ls = {
+        get: (k, d = '') => localStorage.getItem(k) ?? d,
+        set: (k, v) => localStorage.setItem(k, v),
+    };
+
+    // Ensure join date is recorded
+    if (!localStorage.getItem('aura_joined')) {
+        ls.set('aura_joined', new Date().toISOString());
+    }
+
+    // ── Banner ──
+    let activeBanner = parseInt(ls.get('aura_banner', '0'));
+    function applyBanner(idx) {
+        document.getElementById('banner').style.background = BANNERS[idx] || BANNERS[0];
+    }
+    applyBanner(activeBanner);
+
+    // ── Avatar ──
+    function applyAvatar() {
+        const imgData = ls.get('aura_avatar_img', '');
+        const emoji   = ls.get('aura_avatar', '🌙');
+        const imgEl   = document.getElementById('avatar-img');
+        const emojiEl = document.getElementById('avatar-emoji');
+        const removeBtn = document.getElementById('remove-img-btn');
+        if (imgData) {
+            imgEl.src = imgData;
+            imgEl.style.display = '';
+            emojiEl.style.display = 'none';
+            removeBtn.style.display = 'block';
+        } else {
+            imgEl.style.display = 'none';
+            emojiEl.style.display = '';
+            emojiEl.textContent = emoji;
+            removeBtn.style.display = 'none';
+        }
+    }
+    applyAvatar();
+
+    // ── View ──
+    function renderView() {
+        const name      = ls.get('aura_username', 'User');
+        const bio       = ls.get('aura_bio', '');
+        const status    = ls.get('aura_status', 'Online');
+        const joined    = ls.get('aura_joined', '');
+        const logins    = parseInt(ls.get('aura_login_count', '0'));
+        const lastSeen  = ls.get('aura_last_seen', '');
+        const dates     = JSON.parse(ls.get('aura_login_dates', '[]'));
+
+        document.getElementById('view-name').textContent    = name;
+        document.getElementById('view-handle').textContent  = '@' + name.toLowerCase().replace(/\s+/g, '_') + ' · Aura OS';
+        document.getElementById('view-bio').textContent     = bio || 'No bio yet.';
+
+        const statusDef = STATUSES.find(s => s.label === status) || STATUSES[0];
+        document.getElementById('view-status-text').textContent = statusDef.label;
+        const dot = document.getElementById('view-status-dot');
+        dot.className = 'status-dot' + (statusDef.cls ? ' ' + statusDef.cls : '');
+
+        document.getElementById('stat-logins').textContent = logins;
+
+        const joinDate = joined ? new Date(joined) : new Date();
+        const daysActive = Math.max(1, Math.floor((Date.now() - joinDate) / 86400000) + 1);
+        document.getElementById('stat-days').textContent   = daysActive;
+        document.getElementById('stat-streak').textContent = calcStreak(dates);
+
+        if (joined) {
+            document.getElementById('view-joined').textContent =
+                new Date(joined).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+        }
+        document.getElementById('view-lastseen').textContent = lastSeen ? timeAgo(new Date(lastSeen)) : 'just now';
+    }
+
+    function calcStreak(dates) {
+        const unique = [...new Set(dates.map(d => d.split('T')[0]))].sort().reverse();
+        let streak = 0;
+        for (let i = 0; i < unique.length; i++) {
+            const expected = new Date(Date.now() - i * 86400000).toISOString().split('T')[0];
+            if (unique[i] === expected) streak++;
+            else break;
+        }
+        return Math.max(streak, 1);
+    }
+
+    function timeAgo(date) {
+        const s = Math.floor((Date.now() - date) / 1000);
+        if (s < 60)    return 'just now';
+        if (s < 3600)  return Math.floor(s / 60) + 'm ago';
+        if (s < 86400) return Math.floor(s / 3600) + 'h ago';
+        return Math.floor(s / 86400) + 'd ago';
+    }
+
+    renderView();
+
+    // ── Avatar picker ──
+    const picker    = document.getElementById('avatar-picker');
+    const emojiGrid = document.getElementById('emoji-grid');
+
+    EMOJIS.forEach(e => {
+        const btn = document.createElement('div');
+        btn.className = 'emoji-btn';
+        btn.textContent = e;
+        btn.addEventListener('click', () => {
+            ls.set('aura_avatar', e);
+            localStorage.removeItem('aura_avatar_img');
+            applyAvatar();
+            picker.classList.remove('open');
+            notifyParent();
+        });
+        emojiGrid.appendChild(btn);
+    });
+
+    document.getElementById('avatar-file').addEventListener('change', e => {
+        const file = e.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = ev => {
+            ls.set('aura_avatar_img', ev.target.result);
+            applyAvatar();
+            picker.classList.remove('open');
+            notifyParent();
+        };
+        reader.readAsDataURL(file);
+        e.target.value = '';
+    });
+
+    document.getElementById('remove-img-btn').addEventListener('click', () => {
+        localStorage.removeItem('aura_avatar_img');
+        applyAvatar();
+        picker.classList.remove('open');
+        notifyParent();
+    });
+
+    document.getElementById('avatar-btn').addEventListener('click', e => {
+        e.stopPropagation();
+        const rect = document.getElementById('avatar-btn').getBoundingClientRect();
+        picker.style.top  = (rect.bottom + 8) + 'px';
+        picker.style.left = Math.min(rect.left, window.innerWidth - 244) + 'px';
+        picker.classList.toggle('open');
+    });
+
+    document.addEventListener('click', e => {
+        if (!picker.contains(e.target) && e.target !== document.getElementById('avatar-btn')) {
+            picker.classList.remove('open');
+        }
+    });
+
+    // ── Edit panel setup ──
+    // Build status options
+    const statusOptsEl = document.getElementById('status-options');
+    STATUSES.forEach(s => {
+        const opt = document.createElement('div');
+        opt.className = 'status-opt';
+        opt.dataset.status = s.label;
+        opt.innerHTML = `<div class="status-dot ${s.cls}" style="background:${s.color}"></div>${s.label}`;
+        opt.addEventListener('click', () => {
+            document.querySelectorAll('.status-opt').forEach(o => o.classList.remove('selected'));
+            opt.classList.add('selected');
+        });
+        statusOptsEl.appendChild(opt);
+    });
+
+    // Build banner options
+    const bannerOptsEl = document.getElementById('banner-options');
+    BANNERS.forEach((b, i) => {
+        const opt = document.createElement('div');
+        opt.className = 'banner-opt';
+        opt.style.background = b;
+        opt.dataset.idx = i;
+        opt.addEventListener('click', () => {
+            document.querySelectorAll('.banner-opt').forEach(o => o.classList.remove('selected'));
+            opt.classList.add('selected');
+            applyBanner(i);
+            activeBanner = i;
+        });
+        bannerOptsEl.appendChild(opt);
+    });
+
+    function openEdit() {
+        document.getElementById('edit-name').value = ls.get('aura_username', '');
+        document.getElementById('edit-bio').value  = ls.get('aura_bio', '');
+        const curStatus = ls.get('aura_status', 'Online');
+        const curBanner = parseInt(ls.get('aura_banner', '0'));
+        document.querySelectorAll('.status-opt').forEach(o => {
+            o.classList.toggle('selected', o.dataset.status === curStatus);
+        });
+        document.querySelectorAll('.banner-opt').forEach(o => {
+            o.classList.toggle('selected', parseInt(o.dataset.idx) === curBanner);
+        });
+        activeBanner = curBanner;
+        applyBanner(curBanner);
+        document.getElementById('view-panel').classList.add('hidden');
+        document.getElementById('edit-panel').classList.add('active');
+    }
+
+    function closeEdit() {
+        document.getElementById('edit-panel').classList.remove('active');
+        document.getElementById('view-panel').classList.remove('hidden');
+        applyBanner(parseInt(ls.get('aura_banner', '0')));
+    }
+
+    function saveProfile() {
+        const name   = document.getElementById('edit-name').value.trim() || 'User';
+        const bio    = document.getElementById('edit-bio').value.trim();
+        const selSt  = document.querySelector('.status-opt.selected');
+        const status = selSt ? selSt.dataset.status : 'Online';
+
+        ls.set('aura_username', name);
+        ls.set('aura_bio', bio);
+        ls.set('aura_status', status);
+        ls.set('aura_banner', String(activeBanner));
+
+        renderView();
+        closeEdit();
+        notifyParent();
+    }
+
+    document.getElementById('edit-btn').addEventListener('click', openEdit);
+    document.getElementById('save-btn').addEventListener('click', saveProfile);
+    document.getElementById('cancel-btn').addEventListener('click', closeEdit);
+
+    // ── Notify parent window (index.html) of profile changes ──
+    function notifyParent() {
+        try {
+            window.parent.postMessage({
+                type:   'aura_profile_update',
+                name:   ls.get('aura_username', 'User'),
+                avatar: ls.get('aura_avatar', '🌙'),
+                hasImg: !!ls.get('aura_avatar_img', ''),
+            }, '*');
+        } catch (_) {}
+    }
+
+    // ── Track today's visit ──
+    const today = new Date().toISOString().split('T')[0];
+    const dates = JSON.parse(ls.get('aura_login_dates', '[]'));
+    if (!dates.includes(today)) {
+        dates.push(today);
+        ls.set('aura_login_dates', JSON.stringify(dates));
+    }
+    ls.set('aura_last_seen', new Date().toISOString());
+</script>
+</body>
+</html>

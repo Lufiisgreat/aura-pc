@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Aura — Setup</title>
+    <link rel="icon" href="/favicon.ico" sizes="any">
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
+    <style>
+        /* Welcome screen */
+        #welcome-screen { display: none; }
+        #welcome-screen.active { display: block; animation: stepIn 0.35s cubic-bezier(0.34,1.2,0.64,1); }
+        #setup-card { display: none; }
+        #setup-card.active { display: block; animation: stepIn 0.35s cubic-bezier(0.34,1.2,0.64,1); }
+
+        .welcome-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin: 22px 0 6px;
+        }
+        .welcome-opt {
+            background: var(--surface-1);
+            border: 1px solid var(--glass-border);
+            border-radius: 14px;
+            padding: 18px 12px 16px;
+            cursor: pointer;
+            text-align: center;
+            transition: background 0.15s, border-color 0.15s, transform 0.15s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+        }
+        .welcome-opt:hover { background: var(--surface-hover); border-color: rgba(180,130,255,0.28); transform: translateY(-2px); }
+        .welcome-opt .material-symbols-outlined { font-size: 28px; color: var(--accent-mac); }
+        .welcome-opt-title { font-size: 13px; font-weight: 700; color: var(--text-primary); }
+        .welcome-opt-sub { font-size: 11px; color: var(--text-tertiary); line-height: 1.4; }
+
+        :root {
+            --accent: #8b5cf6;
+            --accent-mac: #a78bfa;
+            --text-primary: rgba(255,245,255,0.93);
+            --text-secondary: rgba(210,180,255,0.55);
+            --text-tertiary: rgba(180,140,255,0.30);
+            --surface-1: rgba(160,100,255,0.05);
+            --surface-2: rgba(160,100,255,0.08);
+            --surface-hover: rgba(160,100,255,0.13);
+            --glass-border: rgba(180,130,255,0.13);
+            --font: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            background: #07040f;
+            color: var(--text-primary);
+            font-family: var(--font);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Animated background */
+        .bg {
+            position: fixed;
+            inset: 0;
+            background:
+                radial-gradient(ellipse 70% 60% at 15% 40%, rgba(120,40,220,0.30) 0%, transparent 55%),
+                radial-gradient(ellipse 60% 70% at 85% 70%, rgba(80,10,160,0.24) 0%, transparent 55%),
+                radial-gradient(ellipse 50% 50% at 60% 15%, rgba(160,60,255,0.16) 0%, transparent 55%),
+                radial-gradient(ellipse 40% 40% at 40% 85%, rgba(100,20,200,0.18) 0%, transparent 55%),
+                #07040f;
+            z-index: 0;
+        }
+
+        canvas#bg-canvas {
+            position: fixed;
+            inset: 0;
+            width: 100%; height: 100%;
+            z-index: 0;
+            opacity: 0.4;
+            pointer-events: none;
+        }
+
+        .page {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            max-width: 460px;
+            padding: 20px;
+        }
+
+        /* Card */
+        .card {
+            background: rgba(20, 10, 40, 0.78);
+            border: 1px solid rgba(180,130,255,0.18);
+            border-radius: 26px;
+            padding: 40px 40px 36px;
+            backdrop-filter: blur(40px) saturate(160%);
+            -webkit-backdrop-filter: blur(40px) saturate(160%);
+            box-shadow:
+                0 40px 80px rgba(0,0,0,0.55),
+                0 0 60px rgba(100,40,200,0.12),
+                inset 0 1px 0 rgba(200,160,255,0.10);
+        }
+
+        .logo {
+            font-size: 36px;
+            font-weight: 700;
+            letter-spacing: -1.5px;
+            background: linear-gradient(135deg, #fff 0%, #d8b4fe 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 3px;
+        }
+        .tagline {
+            font-size: 13px;
+            color: var(--text-tertiary);
+            margin-bottom: 26px;
+        }
+
+        /* Step dots */
+        .step-dots {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 28px;
+        }
+        .step-dot {
+            height: 3px;
+            flex: 1;
+            border-radius: 2px;
+            background: rgba(180,130,255,0.12);
+            transition: background 0.35s;
+        }
+        .step-dot.active { background: var(--accent-mac); box-shadow: 0 0 6px rgba(167,139,250,0.5); }
+        .step-dot.done { background: rgba(167,139,250,0.35); }
+
+        /* Step panels */
+        .step { display: none; animation: stepIn 0.3s cubic-bezier(0.34,1.2,0.64,1); }
+        .step.active { display: block; }
+        @keyframes stepIn {
+            from { opacity: 0; transform: translateX(18px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .step-title {
+            font-size: 21px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 5px;
+        }
+        .step-sub {
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+            line-height: 1.55;
+        }
+
+        /* Field */
+        .field { margin-bottom: 14px; }
+        .label {
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 0.10em;
+            text-transform: uppercase;
+            color: var(--text-tertiary);
+            margin-bottom: 6px;
+        }
+        .input {
+            width: 100%;
+            background: rgba(160,100,255,0.07);
+            border: 1px solid rgba(180,130,255,0.18);
+            border-radius: 10px;
+            padding: 11px 14px;
+            font-size: 14px;
+            font-family: var(--font);
+            color: var(--text-primary);
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        .input::placeholder { color: var(--text-tertiary); }
+        .input:focus {
+            border-color: rgba(167,139,250,0.65);
+            box-shadow: 0 0 0 3px rgba(139,92,246,0.15);
+        }
+        .select {
+            width: 100%;
+            background: rgba(160,100,255,0.07);
+            border: 1px solid rgba(180,130,255,0.18);
+            border-radius: 10px;
+            padding: 11px 14px;
+            font-size: 14px;
+            font-family: var(--font);
+            color: var(--text-primary);
+            outline: none;
+            cursor: pointer;
+        }
+        .select option { background: #14082a; }
+
+        /* Button */
+        .btn {
+            width: 100%;
+            background: linear-gradient(135deg, #7c3aed 0%, #a78bfa 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 12px;
+            font-size: 14px;
+            font-weight: 600;
+            font-family: var(--font);
+            cursor: pointer;
+            transition: filter 0.2s, transform 0.15s, box-shadow 0.2s;
+            box-shadow: 0 4px 20px rgba(124,58,237,0.45);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 6px;
+        }
+        .btn:hover { filter: brightness(1.1); transform: translateY(-1px); box-shadow: 0 8px 28px rgba(124,58,237,0.6); }
+        .btn:active { transform: translateY(0); filter: brightness(0.97); }
+        .btn .material-symbols-outlined { font-size: 18px; }
+
+        .btn-ghost {
+            width: 100%;
+            background: none;
+            border: 1px solid var(--glass-border);
+            color: var(--text-secondary);
+            border-radius: 10px;
+            padding: 11px;
+            font-size: 13px;
+            font-weight: 600;
+            font-family: var(--font);
+            cursor: pointer;
+            transition: background 0.15s, color 0.15s;
+            margin-top: 8px;
+        }
+        .btn-ghost:hover { background: var(--surface-hover); color: var(--text-primary); }
+
+        /* Error */
+        .error {
+            font-size: 12px;
+            color: #ff5f57;
+            margin-top: 8px;
+            min-height: 16px;
+            display: none;
+        }
+        .error.show { display: block; }
+
+        /* Avatar grid */
+        .avatar-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 8px;
+            margin-bottom: 18px;
+        }
+        .avatar-opt {
+            aspect-ratio: 1;
+            border-radius: 12px;
+            border: 2px solid transparent;
+            cursor: pointer;
+            font-size: 26px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--surface-1);
+            transition: border-color 0.15s, transform 0.15s, background 0.15s;
+            user-select: none;
+        }
+        .avatar-opt:hover { transform: scale(1.08); background: var(--surface-2); }
+        .avatar-opt.selected {
+            border-color: var(--accent-mac);
+            background: rgba(139,92,246,0.15);
+            box-shadow: 0 0 10px rgba(139,92,246,0.3);
+        }
+
+        /* Theme grid */
+        .theme-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin-bottom: 18px;
+        }
+        .theme-opt {
+            height: 58px;
+            border-radius: 12px;
+            border: 2px solid transparent;
+            cursor: pointer;
+            transition: border-color 0.15s, transform 0.15s;
+            position: relative;
+            overflow: hidden;
+        }
+        .theme-opt:hover { transform: scale(1.04); }
+        .theme-opt.selected {
+            border-color: var(--accent-mac);
+            box-shadow: 0 0 12px rgba(139,92,246,0.45);
+        }
+        .theme-label {
+            position: absolute;
+            bottom: 5px; left: 0; right: 0;
+            text-align: center;
+            font-size: 9px;
+            font-weight: 700;
+            color: rgba(255,255,255,0.82);
+            letter-spacing: 0.07em;
+            text-transform: uppercase;
+            text-shadow: 0 1px 4px rgba(0,0,0,0.7);
+        }
+
+        /* Toggle row */
+        .toggle-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 14px;
+            background: var(--surface-1);
+            border: 1px solid var(--glass-border);
+            border-radius: 10px;
+            margin-bottom: 8px;
+            gap: 12px;
+        }
+        .toggle-lbl { font-size: 13px; color: var(--text-primary); font-weight: 500; }
+        .toggle-sub { font-size: 11px; color: var(--text-tertiary); margin-top: 2px; }
+
+        /* Toggle switch */
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 44px; height: 25px;
+            flex-shrink: 0;
+        }
+        .toggle-switch input { display: none; }
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            inset: 0;
+            background: rgba(255,255,255,0.12);
+            transition: .3s;
+            border-radius: 25px;
+            border: 1px solid rgba(255,255,255,0.08);
+        }
+        .slider::before {
+            position: absolute;
+            content: "";
+            height: 19px; width: 19px;
+            left: 2px; bottom: 2px;
+            background: white;
+            transition: .3s cubic-bezier(0.34,1.56,0.64,1);
+            border-radius: 50%;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.4);
+        }
+        input:checked + .slider { background: var(--accent-mac); border-color: var(--accent-mac); }
+        input:checked + .slider::before { transform: translateX(19px); }
+
+        /* Wordmark */
+        .wordmark {
+            position: fixed;
+            bottom: 22px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 11px;
+            color: rgba(180,130,255,0.22);
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            font-weight: 600;
+            z-index: 1;
+            white-space: nowrap;
+        }
+
+        /* ── Mobile ── */
+        @media (max-width: 768px) {
+            .page { padding: 16px; max-width: 100%; }
+            .card { padding: 28px 24px 24px; border-radius: 22px; }
+            .logo { font-size: 30px; }
+            .tagline { font-size: 12px; margin-bottom: 20px; }
+            .step-title { font-size: 18px; }
+            .step-sub { font-size: 12px; }
+            .avatar-grid { grid-template-columns: repeat(5, 1fr); gap: 6px; }
+            .avatar-opt { font-size: 22px; border-radius: 10px; }
+            .theme-grid { grid-template-columns: repeat(3, 1fr); gap: 6px; }
+            .theme-opt { height: 50px; }
+            .theme-label { font-size: 8px; }
+            .input { padding: 10px 12px; font-size: 13px; }
+            .select { padding: 10px 12px; font-size: 13px; }
+            .btn { padding: 11px; font-size: 13px; }
+            .btn-ghost { padding: 10px; font-size: 12px; }
+            .toggle-row { padding: 10px 12px; }
+            .toggle-lbl { font-size: 12px; }
+            .toggle-sub { font-size: 10px; }
+            .welcome-options { grid-template-columns: 1fr; gap: 8px; }
+            .welcome-opt { padding: 14px 12px; }
+            .welcome-opt .material-symbols-outlined { font-size: 24px; }
+            .welcome-opt-title { font-size: 12px; }
+            .welcome-opt-sub { font-size: 10px; }
+        }
+        @media (max-width: 480px) {
+            .page { padding: 12px; }
+            .card { padding: 22px 18px 20px; border-radius: 18px; }
+            .logo { font-size: 26px; }
+            .avatar-grid { grid-template-columns: repeat(4, 1fr); }
+            .avatar-opt { font-size: 20px; }
+            .theme-grid { grid-template-columns: repeat(2, 1fr); }
+            .step-dots { gap: 4px; }
+            .wordmark { font-size: 10px; bottom: 16px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg"></div>
+    <canvas id="bg-canvas"></canvas>
+
+    <div class="page">
+
+        <!-- Welcome screen: shown before setup -->
+        <div id="welcome-screen">
+            <div class="card">
+                <div class="logo">Aura</div>
+                <div class="tagline">Your personal startpage</div>
+                <div class="welcome-options">
+                    <div class="welcome-opt" id="opt-load">
+                        <span class="material-symbols-outlined">upload_file</span>
+                        <div class="welcome-opt-title">Load Save File</div>
+                        <div class="welcome-opt-sub">Restore a previous setup</div>
+                    </div>
+                    <div class="welcome-opt" id="opt-new">
+                        <span class="material-symbols-outlined">person_add</span>
+                        <div class="welcome-opt-title">New Account</div>
+                        <div class="welcome-opt-sub">Start fresh with setup</div>
+                    </div>
+                </div>
+                <input type="file" id="save-file-input" accept=".json" style="display:none">
+                <div class="error" id="load-err" style="text-align:center;">Invalid or unrecognised save file.</div>
+            </div>
+        </div>
+
+
+        <!-- Setup card -->
+        <div id="setup-card">
+        <div class="card">
+            <div class="logo">Aura</div>
+            <div class="tagline">Let's get you set up · takes 30 seconds</div>
+
+            <div class="step-dots">
+                <div class="step-dot active" id="dot-0"></div>
+                <div class="step-dot" id="dot-1"></div>
+                <div class="step-dot" id="dot-2"></div>
+                <div class="step-dot" id="dot-3"></div>
+            </div>
+
+            <!-- Step 0: Profile -->
+            <div class="step active" id="step-0">
+                <div class="step-title">Who are you?</div>
+                <div class="step-sub">This is how Aura will greet you every time you sign in.</div>
+                <div class="field">
+                    <div class="label">Your name</div>
+                    <input type="text" class="input" id="inp-name" placeholder="e.g. Alex" maxlength="24" autofocus />
+                </div>
+                <div class="field">
+                    <div class="label">Pick an avatar</div>
+                    <div class="avatar-grid">
+                        <div class="avatar-opt selected" data-av="🌙">🌙</div>
+                        <div class="avatar-opt" data-av="⚡">⚡</div>
+                        <div class="avatar-opt" data-av="🔮">🔮</div>
+                        <div class="avatar-opt" data-av="🦊">🦊</div>
+                        <div class="avatar-opt" data-av="🐉">🐉</div>
+                        <div class="avatar-opt" data-av="🌸">🌸</div>
+                        <div class="avatar-opt" data-av="🎭">🎭</div>
+                        <div class="avatar-opt" data-av="🛸">🛸</div>
+                        <div class="avatar-opt" data-av="🌊">🌊</div>
+                        <div class="avatar-opt" data-av="🔥">🔥</div>
+                    </div>
+                </div>
+                <button class="btn" id="btn-0">Next <span class="material-symbols-outlined">arrow_forward</span></button>
+                <div class="error" id="err-0">Please enter your name.</div>
+            </div>
+
+            <!-- Step 1: Theme -->
+            <div class="step" id="step-1">
+                <div class="step-title">Pick your theme</div>
+                <div class="step-sub">Sets the wallpaper and color mood of your desktop.</div>
+                <div class="theme-grid">
+                    <div class="theme-opt selected" data-theme="0" style="background:radial-gradient(ellipse at 30% 40%,rgba(120,40,220,0.55),transparent 70%),#0a0614;"><div class="theme-label">Aura</div></div>
+                    <div class="theme-opt" data-theme="1" style="background:radial-gradient(ellipse at 30% 40%,rgba(0,60,200,0.55),transparent 70%),#050a18;"><div class="theme-label">Midnight</div></div>
+                    <div class="theme-opt" data-theme="2" style="background:radial-gradient(ellipse at 60% 30%,rgba(200,30,80,0.55),transparent 70%),#100508;"><div class="theme-label">Rose</div></div>
+                    <div class="theme-opt" data-theme="3" style="background:radial-gradient(ellipse at 40% 60%,rgba(10,120,60,0.55),transparent 70%),#060f08;"><div class="theme-label">Forest</div></div>
+                    <div class="theme-opt" data-theme="4" style="background:radial-gradient(ellipse at 60% 30%,rgba(200,100,0,0.55),transparent 70%),#100700;"><div class="theme-label">Amber</div></div>
+                    <div class="theme-opt" data-theme="5" style="background:radial-gradient(ellipse at 50% 30%,rgba(120,200,240,0.45),transparent 70%),#050a10;"><div class="theme-label">Ice</div></div>
+                </div>
+                <button class="btn" id="btn-1">Next <span class="material-symbols-outlined">arrow_forward</span></button>
+            </div>
+
+            <!-- Step 2: Preferences -->
+            <div class="step" id="step-2">
+                <div class="step-title">Your preferences</div>
+                <div class="step-sub">Fine-tune how Aura looks and behaves.</div>
+                <div class="toggle-row">
+                    <div><div class="toggle-lbl">24-hour clock</div><div class="toggle-sub">Show 14:30 instead of 2:30 PM</div></div>
+                    <label class="toggle-switch"><input type="checkbox" id="pref-24hr"><span class="slider"></span></label>
+                </div>
+                <div class="toggle-row">
+                    <div><div class="toggle-lbl">Floating particles</div><div class="toggle-sub">Animated dots on the wallpaper</div></div>
+                    <label class="toggle-switch"><input type="checkbox" id="pref-particles" checked><span class="slider"></span></label>
+                </div>
+                <div class="toggle-row">
+                    <div><div class="toggle-lbl">Smooth animations</div><div class="toggle-sub">Transitions and hover effects</div></div>
+                    <label class="toggle-switch"><input type="checkbox" id="pref-animations" checked><span class="slider"></span></label>
+                </div>
+                <div class="field" style="margin-top:12px;">
+                    <div class="label">Default search engine</div>
+                    <select class="select" id="pref-engine">
+                        <option value="ddg" selected>DuckDuckGo</option>
+                        <option value="brave">Brave Search</option>
+                        <option value="google">Google</option>
+                        <option value="bing">Bing</option>
+                        <option value="startpage">Startpage</option>
+                    </select>
+                </div>
+                <button class="btn" id="btn-2" style="margin-top:8px;">Next <span class="material-symbols-outlined">arrow_forward</span></button>
+            </div>
+
+            <!-- Step 3: PIN -->
+            <div class="step" id="step-3">
+                <div class="step-title">Secure your session</div>
+                <div class="step-sub">A 4-digit PIN locks your Aura. You can skip this and add one later in Settings.</div>
+                <div class="field">
+                    <div class="label">Choose a 4-digit PIN</div>
+                    <input type="password" class="input" id="inp-pin" placeholder="····" maxlength="4" inputmode="numeric" pattern="[0-9]*" />
+                </div>
+                <div class="field">
+                    <div class="label">Confirm PIN</div>
+                    <input type="password" class="input" id="inp-pin2" placeholder="····" maxlength="4" inputmode="numeric" pattern="[0-9]*" />
+                </div>
+                <div class="error" id="err-3"></div>
+                <button class="btn" id="btn-finish" style="margin-top:4px;"><span class="material-symbols-outlined">check_circle</span> Finish Setup</button>
+                <button class="btn-ghost" id="btn-skip-pin">Skip for now</button>
+            </div>
+        </div>
+        </div><!-- /#setup-card -->
+    </div>
+
+    <div class="wordmark">AURA OS v1.5-alpha</div>
+
+    <script>
+        // ── Modern Web Audio UI Sounds ──
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        function playSound(type) {
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+            const now = audioCtx.currentTime;
+            function osc(type, f1, f2, t, v1, v2, delay = 0) {
+                const o = audioCtx.createOscillator(); const g = audioCtx.createGain();
+                o.type = type; o.connect(g); g.connect(audioCtx.destination);
+                o.frequency.setValueAtTime(f1, now + delay);
+                if (f2) o.frequency.exponentialRampToValueAtTime(f2, now + delay + t);
+                g.gain.setValueAtTime(v1, now + delay);
+                g.gain.exponentialRampToValueAtTime(Math.max(v2, 0.0001), now + delay + t);
+                o.start(now + delay); o.stop(now + delay + t + 0.1);
+            }
+            if (type === 'hover') { osc('sine', 2000, 1500, 0.03, 0.01, 0.0001); } 
+            else if (type === 'click') { osc('sine', 1000, 200, 0.05, 0.05, 0.0001); osc('triangle', 600, 100, 0.03, 0.02, 0.0001); } 
+            else if (type === 'error') { osc('sawtooth', 150, 80, 0.25, 0.03, 0.0001); osc('square', 100, 50, 0.25, 0.02, 0.0001); } 
+            else if (type === 'success') {
+                osc('sine', 1046.50, 1046.50, 0.1, 0.02, 0.0001, 0);
+                osc('sine', 1318.51, 1318.51, 0.1, 0.02, 0.0001, 0.06);
+                osc('sine', 1567.98, 1567.98, 0.2, 0.02, 0.0001, 0.12);
+            }
+        }
+        const iterables = 'button, input, select, .avatar-opt, .theme-opt, .welcome-opt, .btn, .btn-ghost';
+        let lastHover = null;
+        document.addEventListener('mouseover', (e) => {
+            const target = e.target.closest(iterables);
+            if (target && target !== lastHover) { playSound('hover'); lastHover = target; }
+            else if (!target) { lastHover = null; }
+        });
+        document.addEventListener('click', (e) => {
+            if (e.target.closest(iterables)) playSound('click');
+        });
+
+
+        // Redirect if already set up
+        if (localStorage.getItem('aura_setup_done') === 'true') {
+            window.location.replace('login.html');
+        }
+
+        // Show welcome screen
+        document.getElementById('welcome-screen').classList.add('active');
+
+        // "New Account" → show setup
+        document.getElementById('opt-new').addEventListener('click', () => {
+            document.getElementById('welcome-screen').style.display = 'none';
+            document.getElementById('setup-card').classList.add('active');
+        });
+
+        // "Load Save File" → trigger file picker
+        document.getElementById('opt-load').addEventListener('click', () => {
+            document.getElementById('load-err').classList.remove('show');
+            document.getElementById('save-file-input').click();
+        });
+
+        // Handle save file import
+        document.getElementById('save-file-input').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function(ev) {
+                try {
+                    const data = JSON.parse(ev.target.result);
+                    if (!data.aura_setup_done || !data.aura_username) throw new Error('bad file');
+                    for (const [key, value] of Object.entries(data)) {
+                        if (key.startsWith('aura_')) localStorage.setItem(key, String(value));
+                    }
+                    window.location.replace('login.html');
+                } catch {
+                    document.getElementById('load-err').classList.add('show');
+                    e.target.value = '';
+                }
+            };
+            reader.readAsText(file);
+        });
+
+        // BG particles
+        const canvas = document.getElementById('bg-canvas');
+        const ctx = canvas.getContext('2d');
+        let pts = [];
+        function resizeBg() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            pts = [];
+            const n = Math.floor(canvas.width * canvas.height / 9000);
+            for (let i = 0; i < n; i++) pts.push({
+                x: Math.random() * canvas.width, y: Math.random() * canvas.height,
+                r: 0.5 + Math.random() * 1.5,
+                vx: (Math.random() - 0.5) * 0.12, vy: (Math.random() - 0.5) * 0.12,
+                a: 0.15 + Math.random() * 0.4,
+                c: Math.random() > 0.5 ? [160,80,255] : [200,120,255]
+            });
+        }
+        function drawBg() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            for (const p of pts) {
+                p.x += p.vx; p.y += p.vy;
+                if (p.x < 0) p.x = canvas.width; if (p.x > canvas.width) p.x = 0;
+                if (p.y < 0) p.y = canvas.height; if (p.y > canvas.height) p.y = 0;
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(${p.c[0]},${p.c[1]},${p.c[2]},${p.a})`;
+                ctx.fill();
+            }
+            requestAnimationFrame(drawBg);
+        }
+        resizeBg(); drawBg();
+        window.addEventListener('resize', resizeBg);
+
+        // State
+        let currentStep = 0;
+        let selectedAvatar = '🌙';
+        let selectedTheme = 0;
+
+        // Avatar picker
+        document.querySelectorAll('.avatar-opt').forEach(opt => {
+            opt.addEventListener('click', () => {
+                document.querySelectorAll('.avatar-opt').forEach(o => o.classList.remove('selected'));
+                opt.classList.add('selected');
+                selectedAvatar = opt.dataset.av;
+            });
+        });
+
+        // Theme picker
+        document.querySelectorAll('.theme-opt').forEach(opt => {
+            opt.addEventListener('click', () => {
+                document.querySelectorAll('.theme-opt').forEach(o => o.classList.remove('selected'));
+                opt.classList.add('selected');
+                selectedTheme = parseInt(opt.dataset.theme);
+            });
+        });
+
+        function goStep(n) {
+            document.getElementById('step-' + currentStep).classList.remove('active');
+            document.getElementById('dot-' + currentStep).classList.remove('active');
+            document.getElementById('dot-' + currentStep).classList.add('done');
+            currentStep = n;
+            document.getElementById('step-' + n).classList.add('active');
+            document.getElementById('dot-' + n).classList.add('active');
+        }
+
+        // Step 0 → 1
+        document.getElementById('btn-0').addEventListener('click', () => {
+            const name = document.getElementById('inp-name').value.trim();
+            if (!name) { playSound('error'); document.getElementById('err-0').classList.add('show'); return; }
+            document.getElementById('err-0').classList.remove('show');
+            goStep(1);
+        });
+        document.getElementById('inp-name').addEventListener('keydown', e => { if (e.key === 'Enter') document.getElementById('btn-0').click(); });
+
+        // Step 1 → 2
+        document.getElementById('btn-1').addEventListener('click', () => goStep(2));
+
+        // Step 2 → 3
+        document.getElementById('btn-2').addEventListener('click', () => goStep(3));
+
+        // Finish with PIN
+        document.getElementById('btn-finish').addEventListener('click', () => {
+            const pin = document.getElementById('inp-pin').value;
+            const pin2 = document.getElementById('inp-pin2').value;
+            const err = document.getElementById('err-3');
+            if (pin && pin.length < 4) { playSound('error'); err.textContent = 'PIN must be exactly 4 digits.'; err.classList.add('show'); return; }
+            if (pin && pin !== pin2) { playSound('error'); err.textContent = 'PINs do not match.'; err.classList.add('show'); return; }
+            err.classList.remove('show');
+            saveAndRedirect(pin || null);
+        });
+
+        // Skip PIN
+        document.getElementById('btn-skip-pin').addEventListener('click', () => saveAndRedirect(null));
+
+        function saveAndRedirect(pin) {
+            playSound('success');
+            const name = document.getElementById('inp-name').value.trim();
+            const saveData = {
+                aura_username: name,
+                aura_avatar: selectedAvatar,
+                aura_wp_preset: String(selectedTheme),
+                aura_24hr: String(document.getElementById('pref-24hr').checked),
+                aura_particles: String(document.getElementById('pref-particles').checked),
+                aura_animations: String(document.getElementById('pref-animations').checked),
+                aura_search_engine: document.getElementById('pref-engine').value,
+                aura_setup_done: 'true'
+            };
+            if (pin) saveData.aura_pin = pin;
+
+            // Save to localStorage
+            for (const [key, value] of Object.entries(saveData)) {
+                localStorage.setItem(key, value);
+            }
+            if (!pin) localStorage.removeItem('aura_pin');
+            sessionStorage.setItem('aura_logged_in', 'true');
+
+            // Download save file
+            const blob = new Blob([JSON.stringify(saveData, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'aura-save.json';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+
+            // Fade out then redirect to login
+            document.querySelector('.page').style.transition = 'opacity 0.4s';
+            document.querySelector('.page').style.opacity = '0';
+            document.querySelector('.bg').style.transition = 'opacity 0.4s';
+            document.querySelector('.bg').style.opacity = '0';
+            setTimeout(() => window.location.replace('login.html'), 420);
+        }
+    </script>
+</body>
+</html>

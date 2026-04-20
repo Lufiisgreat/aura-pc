@@ -1,0 +1,994 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Aura — Music</title>
+    <link rel="icon" href="/favicon.ico" sizes="any">
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
+    <script src="https://w.soundcloud.com/player/api.js"></script>
+    <script>
+        (function(){
+            var P=[
+                {a:'#8b5cf6',ad:'#7c3aed',al:'#c084fc',am:'#a78bfa',ag:'rgba(var(--accent-rgb),0.45)',ar:'139,92,246',amr:'167,139,250',gr:'180,130,255',go:'160,100,255',gb:'rgba(180,130,255,0.13)',gbh:'rgba(200,160,255,0.26)',ts:'rgba(210,180,255,0.55)',tt:'rgba(180,140,255,0.30)',s1:'rgba(160,100,255,0.05)',s2:'rgba(160,100,255,0.09)',sh:'rgba(160,100,255,0.13)'},
+                {a:'#3b82f6',ad:'#2563eb',al:'#93c5fd',am:'#60a5fa',ag:'rgba(59,130,246,0.45)',ar:'59,130,246',amr:'96,165,250',gr:'100,150,255',go:'60,100,255',gb:'rgba(100,150,255,0.13)',gbh:'rgba(130,180,255,0.26)',ts:'rgba(160,190,255,0.55)',tt:'rgba(120,160,255,0.30)',s1:'rgba(60,100,255,0.05)',s2:'rgba(60,100,255,0.09)',sh:'rgba(60,100,255,0.13)'},
+                {a:'#e11d6a',ad:'#be185d',al:'#fda4af',am:'#fb7aac',ag:'rgba(225,29,106,0.45)',ar:'225,29,106',amr:'251,122,172',gr:'255,100,150',go:'255,50,100',gb:'rgba(255,100,150,0.13)',gbh:'rgba(255,140,180,0.26)',ts:'rgba(255,190,215,0.55)',tt:'rgba(255,150,185,0.30)',s1:'rgba(255,50,100,0.05)',s2:'rgba(255,50,100,0.09)',sh:'rgba(255,50,100,0.13)'},
+                {a:'#22c55e',ad:'#16a34a',al:'#86efac',am:'#4ade80',ag:'rgba(34,197,94,0.45)',ar:'34,197,94',amr:'74,222,128',gr:'80,220,130',go:'40,200,90',gb:'rgba(80,220,130,0.13)',gbh:'rgba(110,240,160,0.26)',ts:'rgba(160,255,195,0.55)',tt:'rgba(120,220,155,0.30)',s1:'rgba(40,200,90,0.05)',s2:'rgba(40,200,90,0.09)',sh:'rgba(40,200,90,0.13)'},
+                {a:'#f97316',ad:'#ea580c',al:'#fdba74',am:'#fb923c',ag:'rgba(249,115,22,0.45)',ar:'249,115,22',amr:'251,146,60',gr:'255,160,80',go:'255,120,30',gb:'rgba(255,160,80,0.13)',gbh:'rgba(255,190,110,0.26)',ts:'rgba(255,215,170,0.55)',tt:'rgba(255,185,130,0.30)',s1:'rgba(255,120,30,0.05)',s2:'rgba(255,120,30,0.09)',sh:'rgba(255,120,30,0.13)'},
+                {a:'#38bdf8',ad:'#0ea5e9',al:'#bae6fd',am:'#7dd3fc',ag:'rgba(56,189,248,0.45)',ar:'56,189,248',amr:'125,211,252',gr:'120,210,255',go:'60,190,250',gb:'rgba(120,210,255,0.13)',gbh:'rgba(160,230,255,0.26)',ts:'rgba(185,230,255,0.55)',tt:'rgba(150,210,255,0.30)',s1:'rgba(60,190,250,0.05)',s2:'rgba(60,190,250,0.09)',sh:'rgba(60,190,250,0.13)'}
+            ];
+            var c=P[parseInt(localStorage.getItem('aura_wp_preset')||'0')]||P[0];
+            var r=document.documentElement.style;
+            r.setProperty('--accent',c.a); r.setProperty('--accent-dark',c.ad); r.setProperty('--accent-light',c.al);
+            r.setProperty('--accent-mac',c.am); r.setProperty('--accent-glow',c.ag);
+            r.setProperty('--accent-rgb',c.ar); r.setProperty('--accent-mac-rgb',c.amr);
+            r.setProperty('--glass-rgb',c.gr); r.setProperty('--glow-rgb',c.go);
+            r.setProperty('--glass-border',c.gb); r.setProperty('--glass-border-hover',c.gbh);
+            r.setProperty('--text-secondary',c.ts); r.setProperty('--text-tertiary',c.tt);
+            r.setProperty('--surface-1',c.s1); r.setProperty('--surface-2',c.s2); r.setProperty('--surface-hover',c.sh);
+        })();
+    </script>
+    <style>
+        :root {
+            --accent: #8b5cf6;
+            --accent-mac: #a78bfa;
+            --bg: #07040f;
+            --surface-1: rgba(160,100,255,0.05);
+            --surface-2: rgba(160,100,255,0.09);
+            --surface-hover: rgba(160,100,255,0.13);
+            --glass-border: rgba(180,130,255,0.13);
+            --text-primary: rgba(255,245,255,0.93);
+            --text-secondary: rgba(210,180,255,0.55);
+            --text-tertiary: rgba(180,140,255,0.30);
+            --titlebar-h: 40px;
+            --font: 'Inter', -apple-system, sans-serif;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; cursor: none !important; }
+        body { background: var(--bg); color: var(--text-primary); font-family: var(--font); height: 100vh; overflow: hidden; display: flex; flex-direction: column; }
+        .bg { position: fixed; inset: 0; background: radial-gradient(ellipse 70% 60% at 15% 40%, rgba(120,40,220,0.22) 0%, transparent 55%), radial-gradient(ellipse 60% 70% at 85% 70%, rgba(80,10,160,0.18) 0%, transparent 55%), var(--bg); z-index: 0; pointer-events: none; }
+
+        /* ── Titlebar ── */
+        .titlebar { position: relative; z-index: 100; height: var(--titlebar-h); background: rgba(14,8,26,0.85); border-bottom: 1px solid rgba(255,255,255,0.07); backdrop-filter: blur(30px); display: flex; align-items: center; padding: 0 16px; gap: 14px; flex-shrink: 0; }
+        .tb-back { display: flex; align-items: center; gap: 4px; font-size: 12px; color: var(--text-secondary); padding: 4px 8px; border-radius: 6px; transition: background 0.15s, color 0.15s; }
+        .tb-back:hover { background: var(--surface-hover); color: var(--text-primary); }
+        .tb-back .material-symbols-outlined { font-size: 16px; }
+        .tb-title { font-size: 13px; font-weight: 600; flex: 1; }
+        .tb-right { display: flex; align-items: center; gap: 8px; }
+        .tb-key-btn { font-size: 11px; color: var(--text-tertiary); padding: 4px 8px; border-radius: 6px; border: 1px solid var(--glass-border); transition: all 0.15s; }
+        .tb-key-btn:hover { color: var(--text-secondary); background: var(--surface-hover); }
+        .tb-vol-wrap { display: flex; align-items: center; gap: 6px; color: var(--text-secondary); }
+        .tb-vol-wrap .material-symbols-outlined { font-size: 16px; }
+        .tb-vol-slider { width: 72px; accent-color: var(--accent-mac); }
+
+        /* ── Layout ── */
+        #player-screen { position: relative; z-index: 1; flex: 1; display: grid; grid-template-columns: 300px 1fr; overflow: hidden; }
+
+        /* ── Left Panel ── */
+        .panel-left { border-right: 1px solid var(--glass-border); display: flex; flex-direction: column; overflow: hidden; }
+
+        /* ── Source Tabs ── */
+        .source-tabs { display: flex; flex-shrink: 0; border-bottom: 1px solid var(--glass-border); }
+        .src-tab { flex: 1; text-align: center; padding: 10px 0; font-size: 12px; font-weight: 600; color: var(--text-tertiary); border-bottom: 2px solid transparent; transition: all 0.15s; position: relative; bottom: -1px; }
+        .src-tab.active { color: var(--accent-mac); border-bottom-color: var(--accent-mac); }
+        .src-tab:hover:not(.active) { color: var(--text-secondary); background: var(--surface-1); }
+
+        /* ── Jamendo Panel ── */
+        #jamendo-panel { display: flex; flex-direction: column; flex: 1; overflow: hidden; }
+        .jam-setup-banner { margin: 10px; padding: 12px 14px; border-radius: 12px; background: rgba(var(--accent-rgb),0.06); border: 1px solid rgba(var(--accent-rgb),0.18); flex-shrink: 0; }
+        .jam-setup-title { font-size: 10px; font-weight: 700; color: var(--text-secondary); margin-bottom: 3px; letter-spacing: 0.08em; text-transform: uppercase; }
+        .jam-setup-desc { font-size: 11px; color: var(--text-tertiary); margin-bottom: 8px; line-height: 1.5; }
+        .jam-setup-link { color: var(--accent-mac); text-decoration: none; }
+        .jam-setup-link:hover { text-decoration: underline; }
+        .jam-setup-row { display: flex; gap: 6px; }
+        .jam-key-input { flex: 1; background: rgba(160,100,255,0.07); border: 1px solid rgba(180,130,255,0.18); border-radius: 8px; padding: 7px 10px; font-size: 12px; font-family: var(--font); color: var(--text-primary); outline: none; transition: border-color 0.2s; }
+        .jam-key-input:focus { border-color: rgba(167,139,250,0.5); }
+        .jam-key-input::placeholder { color: var(--text-tertiary); }
+        .jam-save-btn { background: linear-gradient(135deg,var(--accent-dark),var(--accent-mac)); color: white; border: none; border-radius: 8px; padding: 7px 12px; font-size: 12px; font-weight: 600; font-family: var(--font); white-space: nowrap; transition: filter 0.15s; }
+        .jam-save-btn:hover { filter: brightness(1.1); }
+        .jam-key-err { font-size: 11px; color: #ff5f57; margin-top: 6px; display: none; }
+        .jam-key-err.show { display: block; }
+
+        /* ── Search ── */
+        .search-wrap { padding: 10px 10px 8px; border-bottom: 1px solid var(--glass-border); flex-shrink: 0; }
+        .search-box { display: flex; align-items: center; gap: 8px; background: var(--surface-1); border: 1px solid var(--glass-border); border-radius: 10px; padding: 8px 12px; transition: border-color 0.2s, box-shadow 0.2s; }
+        .search-box:focus-within { border-color: rgba(167,139,250,0.5); box-shadow: 0 0 0 3px rgba(var(--accent-rgb),0.12); }
+        .search-box .material-symbols-outlined { font-size: 16px; color: var(--text-tertiary); }
+        .search-input { flex: 1; background: none; border: none; outline: none; font-size: 13px; font-family: var(--font); color: var(--text-primary); }
+        .search-input::placeholder { color: var(--text-tertiary); }
+        .search-clear { font-size: 14px; color: var(--text-tertiary); display: none; transition: color 0.15s; }
+        .search-clear.show { display: block; }
+        .search-clear:hover { color: var(--text-secondary); }
+        .results-list { flex: 1; overflow-y: auto; padding: 8px; }
+        .results-list::-webkit-scrollbar { width: 4px; }
+        .results-list::-webkit-scrollbar-thumb { background: rgba(167,139,250,0.25); border-radius: 2px; }
+
+        /* ── Track Items ── */
+        .result-item { display: flex; align-items: center; gap: 10px; padding: 8px 10px; border-radius: 10px; transition: background 0.12s; position: relative; }
+        .result-item:hover { background: var(--surface-hover); }
+        .result-item.playing { background: rgba(var(--accent-rgb),0.14); }
+        .result-item.playing::before { content: ''; position: absolute; left: 0; top: 20%; bottom: 20%; width: 2px; background: var(--accent-mac); border-radius: 1px; }
+        .result-thumb { width: 46px; height: 46px; border-radius: 6px; object-fit: cover; flex-shrink: 0; background: var(--surface-2); }
+        .result-info { flex: 1; min-width: 0; }
+        .result-name { font-size: 12.5px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .result-channel { font-size: 11px; color: var(--text-tertiary); margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+        /* ── Empty / Loading ── */
+        .empty-state { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; color: var(--text-tertiary); padding: 40px 20px; text-align: center; }
+        .empty-state .material-symbols-outlined { font-size: 36px; opacity: 0.4; }
+        .empty-state p { font-size: 13px; line-height: 1.5; }
+        .loading-dots { display: flex; gap: 6px; justify-content: center; padding: 24px; }
+        .loading-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent-mac); animation: ldot 1.2s ease-in-out infinite; }
+        .loading-dot:nth-child(2) { animation-delay: 0.2s; }
+        .loading-dot:nth-child(3) { animation-delay: 0.4s; }
+        @keyframes ldot { 0%,80%,100% { transform:scale(0.6);opacity:0.4; } 40% { transform:scale(1);opacity:1; } }
+
+        /* ── SoundCloud Panel ── */
+        #sc-panel { display: none; flex-direction: column; flex: 1; overflow: hidden; }
+        .sc-url-section { padding: 10px 10px 8px; border-bottom: 1px solid var(--glass-border); flex-shrink: 0; }
+        .sc-url-row { display: flex; gap: 6px; }
+        .sc-url-input { flex: 1; background: var(--surface-1); border: 1px solid var(--glass-border); border-radius: 8px; padding: 7px 10px; font-size: 12px; font-family: var(--font); color: var(--text-primary); outline: none; transition: border-color 0.2s; min-width: 0; }
+        .sc-url-input:focus { border-color: rgba(167,139,250,0.5); }
+        .sc-url-input::placeholder { color: var(--text-tertiary); }
+        .sc-load-btn { background: linear-gradient(135deg,var(--accent-dark),var(--accent-mac)); color: white; border: none; border-radius: 8px; padding: 7px 14px; font-size: 12px; font-weight: 600; font-family: var(--font); white-space: nowrap; flex-shrink: 0; transition: filter 0.15s; }
+        .sc-load-btn:hover { filter: brightness(1.1); }
+        .sc-chips { display: flex; gap: 5px; margin-top: 8px; flex-wrap: wrap; }
+        .sc-chip { padding: 4px 10px; border-radius: 20px; font-size: 11px; font-weight: 500; background: rgba(var(--accent-rgb),0.09); border: 1px solid rgba(var(--accent-rgb),0.2); color: var(--text-secondary); transition: all 0.15s; }
+        .sc-chip:hover { background: rgba(var(--accent-rgb),0.2); color: var(--text-primary); border-color: rgba(var(--accent-rgb),0.4); }
+        .sc-hint { font-size: 10px; color: var(--text-tertiary); margin-top: 6px; line-height: 1.4; }
+        .sc-queue { flex: 1; overflow-y: auto; padding: 8px; }
+        .sc-queue::-webkit-scrollbar { width: 4px; }
+        .sc-queue::-webkit-scrollbar-thumb { background: rgba(167,139,250,0.25); border-radius: 2px; }
+
+        /* ── Right Panel ── */
+        .panel-right { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 28px; gap: 0; position: relative; z-index: 1; }
+        .now-art-wrap { position: relative; width: 200px; height: 200px; margin-bottom: 26px; }
+        .now-art { width: 200px; height: 200px; border-radius: 16px; object-fit: cover; background: var(--surface-2); box-shadow: 0 20px 60px rgba(0,0,0,0.55), 0 0 0 1px rgba(180,130,255,0.10); transition: transform 0.4s cubic-bezier(0.34,1.2,0.64,1), box-shadow 0.4s; }
+        .now-art.playing { transform: scale(1.04); box-shadow: 0 28px 72px rgba(0,0,0,0.65), 0 0 40px rgba(var(--accent-rgb),0.22), 0 0 0 1px rgba(180,130,255,0.16); }
+        .art-placeholder { width: 200px; height: 200px; border-radius: 16px; background: var(--surface-2); border: 1px solid var(--glass-border); display: flex; align-items: center; justify-content: center; }
+        .art-placeholder .material-symbols-outlined { font-size: 52px; color: var(--text-tertiary); opacity: 0.4; }
+        .now-info { text-align: center; margin-bottom: 20px; width: 100%; max-width: 340px; }
+        .now-title { font-size: 19px; font-weight: 700; margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .now-channel { font-size: 13px; color: var(--text-secondary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .progress-wrap { width: 100%; max-width: 340px; margin-bottom: 18px; }
+        .prog-outer { width: 100%; height: 4px; background: rgba(180,130,255,0.15); border-radius: 2px; margin-bottom: 7px; transition: height 0.15s; }
+        .prog-outer:hover { height: 6px; }
+        .prog-fill { height: 100%; background: linear-gradient(90deg,#7c3aed,#a78bfa); border-radius: 2px; width: 0%; pointer-events: none; }
+        .prog-times { display: flex; justify-content: space-between; font-size: 11px; color: var(--text-tertiary); font-variant-numeric: tabular-nums; }
+        .controls { display: flex; align-items: center; gap: 14px; margin-bottom: 18px; }
+        .ctrl-btn { background: none; border: none; color: var(--text-secondary); display: flex; align-items: center; justify-content: center; border-radius: 50%; padding: 6px; transition: color 0.15s, transform 0.15s, background 0.15s; }
+        .ctrl-btn:hover { color: var(--text-primary); background: var(--surface-hover); }
+        .ctrl-btn .material-symbols-outlined { font-size: 22px; }
+        .ctrl-btn.play-btn { width: 52px; height: 52px; background: linear-gradient(135deg,var(--accent-dark),var(--accent-mac)); color: white; box-shadow: 0 4px 20px rgba(124,58,237,0.5); }
+        .ctrl-btn.play-btn:hover { filter: brightness(1.1); transform: scale(1.06); }
+        .ctrl-btn.play-btn .material-symbols-outlined { font-size: 28px; }
+        .ctrl-btn.active-btn { color: var(--accent-mac); }
+        .source-notice { font-size: 11px; color: var(--text-tertiary); display: flex; align-items: center; gap: 5px; }
+        .source-notice .material-symbols-outlined { font-size: 14px; }
+        .src-link { color: var(--accent-mac); text-decoration: none; }
+        .src-link:hover { opacity: 0.75; }
+
+        /* ── Custom Cursor ── */
+        #cursor-dot { position: fixed; width: 8px; height: 8px; background: #fff; border-radius: 50%; pointer-events: none; z-index: 99999; transform: translate(-50%,-50%); box-shadow: 0 0 6px rgba(167,139,250,0.9), 0 0 12px rgba(var(--accent-rgb),0.5); transition: width 0.15s, height 0.15s, background 0.15s; }
+        #cursor-ring { position: fixed; width: 32px; height: 32px; border: 1.5px solid rgba(167,139,250,0.55); border-radius: 50%; pointer-events: none; z-index: 99998; transform: translate(-50%,-50%); transition: width 0.18s cubic-bezier(0.34,1.56,0.64,1), height 0.18s cubic-bezier(0.34,1.56,0.64,1); }
+        body.cursor-hover #cursor-ring { width: 44px; height: 44px; border-color: rgba(167,139,250,0.75); }
+        body.cursor-hover #cursor-dot { background: var(--accent-mac); }
+        body.cursor-click #cursor-dot { width: 12px; height: 12px; background: var(--accent-mac); }
+        body.cursor-click #cursor-ring { width: 22px; height: 22px; }
+
+        /* ── Mobile ── */
+        @media (max-width: 768px) {
+            * { cursor: auto !important; }
+            #cursor-dot, #cursor-ring { display: none; }
+            .titlebar { padding: 0 10px; height: 44px; gap: 8px; }
+            .tb-back { font-size: 11px; padding: 3px 6px; }
+            .tb-back .material-symbols-outlined { font-size: 14px; }
+            .tb-title { font-size: 12px; }
+            .tb-key-btn { font-size: 10px; padding: 3px 6px; }
+            .tb-vol-slider { width: 50px; }
+            #player-screen { grid-template-columns: 1fr; }
+            .panel-left { max-height: 45vh; border-right: none; border-bottom: 1px solid var(--glass-border); }
+            .panel-right { padding: 20px 16px; }
+            .now-art-wrap { margin-bottom: 18px; }
+            .now-art, .art-placeholder { width: 140px; height: 140px; }
+            .now-title { font-size: 16px; }
+            .now-channel { font-size: 12px; }
+            .controls { gap: 10px; }
+            .ctrl-btn .material-symbols-outlined { font-size: 20px; }
+            .ctrl-btn.play-btn { width: 46px; height: 46px; }
+            .ctrl-btn.play-btn .material-symbols-outlined { font-size: 24px; }
+            .result-thumb { width: 40px; height: 40px; }
+            .result-name { font-size: 12px; }
+            .result-channel { font-size: 10px; }
+            .jam-setup-banner { margin: 8px; padding: 10px 12px; }
+            .jam-setup-title { font-size: 9px; }
+            .jam-setup-desc { font-size: 10px; }
+            .jam-key-input { font-size: 11px; padding: 6px 8px; }
+            .jam-save-btn { font-size: 11px; padding: 6px 10px; }
+            .search-wrap { padding: 8px 8px 6px; }
+            .search-box { padding: 6px 10px; }
+            .search-input { font-size: 12px; }
+            .sc-url-input { font-size: 11px; padding: 6px 8px; }
+            .sc-load-btn { font-size: 11px; padding: 6px 12px; }
+            .sc-chip { font-size: 10px; padding: 3px 8px; }
+            .sc-hint { font-size: 9px; }
+            .source-notice { font-size: 10px; }
+        }
+        @media (max-width: 480px) {
+            .titlebar { flex-wrap: wrap; height: auto; padding: 8px; }
+            .tb-back { order: 1; }
+            .tb-title { order: 2; flex: 1; }
+            .tb-right { order: 3; width: 100%; justify-content: flex-end; }
+            .panel-left { max-height: 50vh; }
+            .now-art, .art-placeholder { width: 120px; height: 120px; }
+            .now-title { font-size: 14px; }
+            .controls { gap: 8px; }
+            .ctrl-btn .material-symbols-outlined { font-size: 18px; }
+            .ctrl-btn.play-btn { width: 42px; height: 42px; }
+            .ctrl-btn.play-btn .material-symbols-outlined { font-size: 22px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg"></div>
+
+    <!-- Titlebar -->
+    <div class="titlebar">
+        <div class="tb-back" id="back-btn">
+            <span class="material-symbols-outlined">arrow_back_ios</span>Desktop
+        </div>
+        <div class="tb-title">
+            <span class="material-symbols-outlined" style="font-size:15px;vertical-align:middle;margin-right:5px;color:var(--accent-mac)">music_note</span>
+            Aura Music
+        </div>
+        <div class="tb-right">
+            <div class="tb-key-btn" id="jam-key-btn" title="Change Jamendo API Key">Jamendo Key</div>
+            <div class="tb-vol-wrap">
+                <span class="material-symbols-outlined" id="vol-icon">volume_up</span>
+                <input type="range" class="tb-vol-slider" id="vol-slider" min="0" max="100" value="80">
+            </div>
+        </div>
+    </div>
+
+    <!-- Player -->
+    <div id="player-screen">
+
+        <!-- Left Panel -->
+        <div class="panel-left">
+            <div class="source-tabs">
+                <div class="src-tab active" id="tab-jamendo">
+                    <span class="material-symbols-outlined" style="font-size:13px;vertical-align:middle;margin-right:4px">music_note</span>Jamendo
+                </div>
+                <div class="src-tab" id="tab-soundcloud">
+                    <span class="material-symbols-outlined" style="font-size:13px;vertical-align:middle;margin-right:4px">cloud_queue</span>SoundCloud
+                </div>
+            </div>
+
+            <!-- Jamendo Panel -->
+            <div id="jamendo-panel">
+                <div class="jam-setup-banner" id="jam-setup-banner">
+                    <div class="jam-setup-title">Jamendo API Key</div>
+                    <div class="jam-setup-desc">
+                        Search and stream free, licensed tracks. Get your client_id from
+                        <a class="jam-setup-link" href="https://developer.jamendo.com/" target="_blank" rel="noopener">developer.jamendo.com</a>
+                    </div>
+                    <div class="jam-setup-row">
+                        <input type="text" class="jam-key-input" id="jam-client-id-input" placeholder="client_id" autocomplete="off" spellcheck="false">
+                        <button class="jam-save-btn" id="jam-save-btn">Save</button>
+                    </div>
+                    <div class="jam-key-err" id="jam-key-err">Invalid key. Check and try again.</div>
+                </div>
+                <div class="search-wrap">
+                    <div class="search-box">
+                        <span class="material-symbols-outlined">search</span>
+                        <input type="text" class="search-input" id="jam-search-input" placeholder="Search Jamendo tracks…" autocomplete="off">
+                        <span class="material-symbols-outlined search-clear" id="jam-search-clear">close</span>
+                    </div>
+                </div>
+                <div class="results-list" id="jam-queue"></div>
+            </div>
+
+            <!-- SoundCloud Panel -->
+            <div id="sc-panel">
+                <div class="sc-url-section">
+                    <div class="sc-url-row">
+                        <input type="text" class="sc-url-input" id="sc-url-input" placeholder="Search or paste SoundCloud URL…" autocomplete="off">
+                        <button class="sc-load-btn" id="sc-load-btn">Load</button>
+                    </div>
+                    <div class="sc-chips">
+                        <div class="sc-chip" data-url="https://soundcloud.com/charts/top?genre=all-music">All</div>
+                        <div class="sc-chip" data-url="https://soundcloud.com/charts/top?genre=electronic">Electronic</div>
+                        <div class="sc-chip" data-url="https://soundcloud.com/charts/top?genre=hiphoprap">Hip Hop</div>
+                        <div class="sc-chip" data-url="https://soundcloud.com/charts/top?genre=rock">Rock</div>
+                        <div class="sc-chip" data-url="https://soundcloud.com/charts/top?genre=pop">Pop</div>
+                        <div class="sc-chip" data-url="https://soundcloud.com/charts/top?genre=jazz">Jazz</div>
+                        <div class="sc-chip" data-url="https://soundcloud.com/charts/top?genre=classical">Classical</div>
+                        <div class="sc-chip" data-url="https://soundcloud.com/charts/top?genre=country">Country</div>
+                        <div class="sc-chip" data-url="https://soundcloud.com/charts/top?genre=reggae">Reggae</div>
+                        <div class="sc-chip" data-url="https://soundcloud.com/charts/top?genre=blues">Blues</div>
+                    </div>
+                    <div class="sc-hint">Search for tracks, or paste a SoundCloud URL (track, album, playlist) to load.</div>
+                </div>
+                <div class="sc-queue" id="sc-queue"></div>
+            </div>
+        </div>
+
+        <!-- Right Panel -->
+        <div class="panel-right">
+            <div class="now-art-wrap">
+                <div class="art-placeholder" id="art-placeholder">
+                    <span class="material-symbols-outlined">music_note</span>
+                </div>
+                <img class="now-art" id="now-art" src="" alt="" style="display:none">
+            </div>
+            <div class="now-info">
+                <div class="now-title" id="now-title">Nothing playing</div>
+                <div class="now-channel" id="now-channel">Search Jamendo or load SoundCloud</div>
+            </div>
+            <div class="progress-wrap">
+                <div class="prog-outer" id="prog-outer">
+                    <div class="prog-fill" id="prog-fill"></div>
+                </div>
+                <div class="prog-times">
+                    <span id="time-cur">0:00</span>
+                    <span id="time-dur">0:00</span>
+                </div>
+            </div>
+            <div class="controls">
+                <button class="ctrl-btn" id="btn-shuffle" title="Shuffle">
+                    <span class="material-symbols-outlined">shuffle</span>
+                </button>
+                <button class="ctrl-btn" id="btn-prev" title="Previous">
+                    <span class="material-symbols-outlined">skip_previous</span>
+                </button>
+                <button class="ctrl-btn play-btn" id="btn-play" title="Play / Pause">
+                    <span class="material-symbols-outlined" id="play-icon">play_arrow</span>
+                </button>
+                <button class="ctrl-btn" id="btn-next" title="Next">
+                    <span class="material-symbols-outlined">skip_next</span>
+                </button>
+                <button class="ctrl-btn" id="btn-repeat" title="Repeat">
+                    <span class="material-symbols-outlined">repeat</span>
+                </button>
+            </div>
+            <div class="source-notice">
+                <span class="material-symbols-outlined" id="src-icon">music_note</span>
+                <span id="source-label">—</span>
+                <a class="src-link" id="src-link" href="#" target="_blank" rel="noopener" style="display:none">Open ↗</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hidden SoundCloud Widget iframe -->
+    <iframe id="sc-iframe"
+        style="position:fixed;bottom:-300px;right:-300px;width:1px;height:1px;opacity:0;pointer-events:none;border:none;"
+        allow="autoplay"></iframe>
+
+    <!-- Cursors -->
+    <div id="cursor-dot"></div>
+    <div id="cursor-ring"></div>
+
+    <script>
+        // ── Auth guard ─────────────────────────────────────────
+        if (localStorage.getItem('aura_setup_done') !== 'true') window.location.replace('setup.html');
+
+        // ── Element refs ───────────────────────────────────────
+        const backBtn        = document.getElementById('back-btn');
+        const volSlider      = document.getElementById('vol-slider');
+        const volIcon        = document.getElementById('vol-icon');
+        const jamKeyBtn      = document.getElementById('jam-key-btn');
+        const tabJamendo     = document.getElementById('tab-jamendo');
+        const tabSoundcloud  = document.getElementById('tab-soundcloud');
+        const jamendoPanel   = document.getElementById('jamendo-panel');
+        const scPanel        = document.getElementById('sc-panel');
+        const jamSetupBanner = document.getElementById('jam-setup-banner');
+        const jamClientIdEl  = document.getElementById('jam-client-id-input'); // DOM element only
+        const jamSaveBtn     = document.getElementById('jam-save-btn');
+        const jamKeyErr      = document.getElementById('jam-key-err');
+        const jamSearchInput = document.getElementById('jam-search-input');
+        const jamSearchClear = document.getElementById('jam-search-clear');
+        const jamQueue       = document.getElementById('jam-queue');
+        const scUrlInput     = document.getElementById('sc-url-input');
+        const scLoadBtn      = document.getElementById('sc-load-btn');
+        const scQueue        = document.getElementById('sc-queue');
+        const artPlaceholder = document.getElementById('art-placeholder');
+        const nowArt         = document.getElementById('now-art');
+        const nowTitle       = document.getElementById('now-title');
+        const nowChannel     = document.getElementById('now-channel');
+        const progFill       = document.getElementById('prog-fill');
+        const progOuter      = document.getElementById('prog-outer');
+        const timeCur        = document.getElementById('time-cur');
+        const timeDur        = document.getElementById('time-dur');
+        const btnPlay        = document.getElementById('btn-play');
+        const playIcon       = document.getElementById('play-icon');
+        const btnPrev        = document.getElementById('btn-prev');
+        const btnNext        = document.getElementById('btn-next');
+        const btnShuffle     = document.getElementById('btn-shuffle');
+        const btnRepeat      = document.getElementById('btn-repeat');
+        const sourceLabel    = document.getElementById('source-label');
+        const srcLink        = document.getElementById('src-link');
+        const srcIcon        = document.getElementById('src-icon');
+        const scIframeEl     = document.getElementById('sc-iframe');
+
+        // ── State ──────────────────────────────────────────────
+        let activeSource   = 'jamendo';
+        let vol            = 80;
+        let jamClientId    = localStorage.getItem('aura_jamendo_client_id') || ''; // string, separate from DOM el
+        let jamTracks      = [];
+        let currentTrack   = null;
+        let audio          = new Audio();
+        let shuffle        = false;
+        let repeat         = false;
+        let bc             = null;
+
+        // This is a public client_id. It may expire.
+        // You can find a new one by inspecting network requests on soundcloud.com
+        const SC_CLIENT_ID = 'iZIs9mchV0xSoB3gUuVOBwQ60LCcIg2p';
+
+        // SoundCloud
+        let scWidget       = null;
+        let scReady        = false;
+        let scIsPlaying    = false;
+        let scDurationMs   = 0;
+        let scSounds       = [];
+        let scCurrentSound = null;
+
+        // ── Init ───────────────────────────────────────────────
+        volSlider.value = vol;
+        audio.volume    = vol / 100;
+        if (jamClientId) jamSetupBanner.style.display = 'none';
+        showEmptyJam();
+        showEmptySc();
+        setupAudio();
+        setupBroadcast();
+        setupCursor();
+
+        // ── Modern Web Audio UI Sounds (PS5 / Windows Blend) ──
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        function playSound(type) {
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+            const now = audioCtx.currentTime;
+            
+            function osc(type, f1, f2, t, v1, v2, delay = 0) {
+                const o = audioCtx.createOscillator();
+                const g = audioCtx.createGain();
+                o.type = type; o.connect(g); g.connect(audioCtx.destination);
+                o.frequency.setValueAtTime(f1, now + delay);
+                if (f2) o.frequency.exponentialRampToValueAtTime(f2, now + delay + t);
+                g.gain.setValueAtTime(v1, now + delay);
+                g.gain.exponentialRampToValueAtTime(Math.max(v2, 0.0001), now + delay + t);
+                o.start(now + delay); o.stop(now + delay + t + 0.1);
+            }
+
+            if (type === 'hover') {
+                osc('sine', 2000, 1500, 0.03, 0.01, 0.0001);
+            } else if (type === 'click') {
+                osc('sine', 1000, 200, 0.05, 0.05, 0.0001);
+                osc('triangle', 600, 100, 0.03, 0.02, 0.0001);
+            } else if (type === 'open') {
+                osc('sine', 300, 900, 0.15, 0.03, 0.0001);
+                osc('triangle', 400, 1200, 0.1, 0.02, 0.0001);
+            }
+        }
+
+        const iterables = 'button, a, input, select, .src-tab, .sc-chip, .result-item, .tb-back, .tb-key-btn, .ctrl-btn, .jam-save-btn, .sc-load-btn';
+        let lastHover = null;
+        document.addEventListener('mouseover', (e) => {
+            const target = e.target.closest(iterables);
+            if (target && target !== lastHover) { playSound('hover'); lastHover = target; }
+            else if (!target) { lastHover = null; }
+        });
+
+        document.addEventListener('click', (e) => {
+            if (e.target.closest(iterables)) {
+                if (e.target.closest('.result-item')) playSound('open');
+                else playSound('click');
+            }
+        });
+
+        // ═══════════════════════════════════════════════════════
+        // TAB SWITCHING
+        // ═══════════════════════════════════════════════════════
+        tabJamendo.addEventListener('click',    () => switchSource('jamendo'));
+        tabSoundcloud.addEventListener('click', () => switchSource('soundcloud'));
+
+        function switchSource(src) {
+            activeSource = src;
+            if (src === 'jamendo') {
+                tabJamendo.classList.add('active');
+                tabSoundcloud.classList.remove('active');
+                jamendoPanel.style.display = 'flex';
+                scPanel.style.display      = 'none';
+            } else {
+                tabSoundcloud.classList.add('active');
+                tabJamendo.classList.remove('active');
+                scPanel.style.display      = 'flex';
+                jamendoPanel.style.display = 'none';
+            }
+        }
+
+        // ═══════════════════════════════════════════════════════
+        // JAMENDO
+        // ═══════════════════════════════════════════════════════
+
+        jamKeyBtn.addEventListener('click', () => {
+            jamSetupBanner.style.display = 'block';
+            jamClientIdEl.focus();
+        });
+        jamSaveBtn.addEventListener('click', saveJamendoKey);
+        jamClientIdEl.addEventListener('keydown', e => { if (e.key === 'Enter') saveJamendoKey(); });
+
+        async function saveJamendoKey() {
+            const cid = jamClientIdEl.value.trim();
+            if (!cid) return;
+            jamSaveBtn.textContent = 'Checking…';
+            jamKeyErr.classList.remove('show');
+            try {
+                const res  = await fetch(`https://api.jamendo.com/v3.0/tracks/?client_id=${encodeURIComponent(cid)}&limit=1`);
+                const data = await res.json();
+                if (data.results) {
+                    jamClientId = cid;                                       // update the string var
+                    localStorage.setItem('aura_jamendo_client_id', cid);
+                    jamSetupBanner.style.display = 'none';
+                } else { throw new Error('bad key'); }
+            } catch {
+                jamKeyErr.classList.add('show');
+            }
+            jamSaveBtn.textContent = 'Save';
+        }
+
+        let jamSearchTimer = null;
+        jamSearchInput.addEventListener('input', () => {
+            const q = jamSearchInput.value.trim();
+            jamSearchClear.classList.toggle('show', q.length > 0);
+            clearTimeout(jamSearchTimer);
+            if (!q) { showEmptyJam(); return; }
+            if (q.length < 2) return;
+            jamSearchTimer = setTimeout(() => jamSearch(q), 420);
+        });
+        jamSearchInput.addEventListener('keydown', e => {
+            if (e.key === 'Enter') {
+                clearTimeout(jamSearchTimer);
+                const q = jamSearchInput.value.trim();
+                if (q.length >= 2) jamSearch(q);
+            }
+        });
+        jamSearchClear.addEventListener('click', () => {
+            jamSearchInput.value = '';
+            jamSearchClear.classList.remove('show');
+            showEmptyJam();
+        });
+
+        function showEmptyJam() {
+            jamQueue.innerHTML = `<div class="empty-state">
+                <span class="material-symbols-outlined">music_note</span>
+                <p>Search for any song or artist<br>to start listening</p>
+            </div>`;
+        }
+
+        async function jamSearch(q) {
+            if (!jamClientId) {
+                jamQueue.innerHTML = `<div class="empty-state">
+                    <span class="material-symbols-outlined">key</span>
+                    <p>Enter your Jamendo client_id above first</p>
+                </div>`;
+                return;
+            }
+            jamQueue.innerHTML = loadingDots();
+            try {
+                const res  = await fetch(
+                    `https://api.jamendo.com/v3.0/tracks/?client_id=${encodeURIComponent(jamClientId)}` +
+                    `&search=${encodeURIComponent(q)}&limit=25&include=musicinfo&groupby=artist_id`
+                );
+                const data = await res.json();
+                if (!data.results || !data.results.length) {
+                    jamQueue.innerHTML = `<div class="empty-state">
+                        <span class="material-symbols-outlined">search_off</span>
+                        <p>No results for "${esc(q)}"</p>
+                    </div>`;
+                    return;
+                }
+                jamTracks = data.results;
+                renderJamResults();
+            } catch {
+                jamQueue.innerHTML = `<div class="empty-state">
+                    <span class="material-symbols-outlined">wifi_off</span>
+                    <p>Search failed. Check connection.</p>
+                </div>`;
+            }
+        }
+
+        function renderJamResults() {
+            jamQueue.innerHTML = jamTracks.map(t => `
+                <div class="result-item ${currentTrack && currentTrack.id === t.id ? 'playing' : ''}" data-id="${esc(t.id)}">
+                    ${t.album_image
+                        ? `<img class="result-thumb" src="${esc(t.album_image)}" alt="" onerror="this.style.background='var(--surface-2)'">`
+                        : '<div class="result-thumb"></div>'}
+                    <div class="result-info">
+                        <div class="result-name">${esc(t.name)}</div>
+                        <div class="result-channel">${esc(t.artist_name)}${t.album_name ? ' · ' + esc(t.album_name) : ''}</div>
+                    </div>
+                </div>`).join('');
+            jamQueue.querySelectorAll('.result-item').forEach(el =>
+                el.addEventListener('click', () => playJamTrack(el.dataset.id))
+            );
+        }
+
+        function playJamTrack(id) {
+            const track = jamTracks.find(t => t.id == id);
+            if (!track) return;
+            if (scWidget && scReady && scIsPlaying) scWidget.pause();
+            activeSource = 'jamendo';
+            audio.src    = track.audio;
+            audio.volume = vol / 100;
+            audio.play();
+            currentTrack = track;
+            setNowPlaying(track.name, track.artist_name, track.album_image, track.shareurl, 'jamendo');
+            renderJamResults();
+        }
+
+        // ═══════════════════════════════════════════════════════
+        // SOUNDCLOUD  (Widget API — hidden iframe)
+        // ═══════════════════════════════════════════════════════
+
+        scLoadBtn.addEventListener('click', () => {
+            const input = scUrlInput.value.trim();
+            if (!input) return;
+            if (input.startsWith('http') && input.includes('soundcloud.com')) {
+                loadSCUrl(input);
+            } else {
+                scSearch(input);
+            }
+        });
+        scUrlInput.addEventListener('keydown', e => {
+            if (e.key === 'Enter') scLoadBtn.click();
+        });
+        document.querySelectorAll('.sc-chip').forEach(chip =>
+            chip.addEventListener('click', () => loadSCUrl(chip.dataset.url))
+        );
+
+        function showEmptySc() {
+            scQueue.innerHTML = `<div class="empty-state">
+                <span class="material-symbols-outlined">cloud_queue</span>
+                <p>Paste a SoundCloud URL<br>or pick a genre above</p>
+            </div>`;
+        }
+
+        function loadSCUrl(rawUrl) {
+            if (!audio.paused) audio.pause();
+            activeSource   = 'soundcloud';
+            scReady        = false;
+            scSounds       = [];
+            scCurrentSound = null;
+            scQueue.innerHTML = loadingDots();
+            setNowPlaying('Loading…', 'SoundCloud', null, rawUrl, 'soundcloud');
+
+            if (!scWidget) {
+                // First time — set iframe src, then create widget and bind events
+                scIframeEl.src = `https://w.soundcloud.com/player/?url=${encodeURIComponent(rawUrl)}&auto_play=true&hide_related=true&show_comments=false&buying=false&liking=false&download=false&sharing=false&show_playcount=false&visual=false`;
+                scWidget = SC.Widget(scIframeEl);
+                bindSCEvents();
+            } else {
+                // Subsequent loads — use widget.load()
+                scWidget.load(rawUrl, {
+                    auto_play:        true,
+                    buying:           false,
+                    liking:           true,
+                    download:         false,
+                    sharing:          false,
+                    show_comments:    false,
+                    show_playcount:   false,
+                    callback: () => {
+                        scReady = true;
+                        scWidget.setVolume(vol);
+                        scWidget.getSounds(sounds => { scSounds = sounds || []; renderSCWidgetQueue(); });
+                        scWidget.getDuration(dur => { scDurationMs = dur; timeDur.textContent = fmt(dur / 1000); });
+                        scWidget.getCurrentSound(s => { if (s) updateSCInfo(s); });
+                    }
+                });
+            }
+        }
+
+        function bindSCEvents() {
+            scWidget.bind(SC.Widget.Events.READY, () => {
+                scReady = true;
+                scWidget.setVolume(vol);
+                scWidget.getSounds(sounds => { scSounds = sounds || []; renderSCWidgetQueue(); });
+                scWidget.getDuration(dur => { scDurationMs = dur; timeDur.textContent = fmt(dur / 1000); });
+                scWidget.getCurrentSound(s => { if (s) updateSCInfo(s); });
+            });
+
+            scWidget.bind(SC.Widget.Events.PLAY, () => {
+                scIsPlaying = true;
+                playIcon.textContent = 'pause';
+                nowArt.classList.add('playing');
+                scWidget.getCurrentSound(s => { if (s) updateSCInfo(s); });
+                scWidget.getDuration(dur => { scDurationMs = dur; });
+                broadcastState();
+            });
+
+            scWidget.bind(SC.Widget.Events.PAUSE, () => {
+                scIsPlaying = false;
+                playIcon.textContent = 'play_arrow';
+                nowArt.classList.remove('playing');
+                broadcastState();
+            });
+
+            scWidget.bind(SC.Widget.Events.FINISH, () => {
+                scIsPlaying = false;
+                playIcon.textContent = 'play_arrow';
+                nowArt.classList.remove('playing');
+                if (repeat) { scWidget.seekTo(0); scWidget.play(); }
+                broadcastState();
+            });
+
+            scWidget.bind(SC.Widget.Events.PLAY_PROGRESS, e => {
+                scPositionMs = e.currentPosition;
+                if (activeSource === 'soundcloud') {
+                    progFill.style.width = (e.relativePosition * 100) + '%';
+                    timeCur.textContent  = fmt(e.currentPosition / 1000);
+                    if (scDurationMs) timeDur.textContent = fmt(scDurationMs / 1000);
+                }
+            });
+
+            scWidget.bind(SC.Widget.Events.ERROR, () => {
+                scQueue.innerHTML = `<div class="empty-state">
+                    <span class="material-symbols-outlined">error</span>
+                    <p>Couldn't load this URL.<br>Try a different SoundCloud link.</p>
+                </div>`;
+            });
+        }
+
+        function updateSCInfo(sound) {
+            scCurrentSound = sound;
+            const art = sound.artwork_url ? sound.artwork_url.replace('-large', '-t500x500') : null;
+            setNowPlaying(sound.title, sound.user ? sound.user.username : '', art, sound.permalink_url, 'soundcloud');
+            renderSCWidgetQueue();
+        }
+
+        async function scSearch(query) {
+            scQueue.innerHTML = loadingDots();
+            try {
+                const res = await fetch(`https://api-v2.soundcloud.com/search/tracks?q=${encodeURIComponent(query)}&client_id=${SC_CLIENT_ID}&limit=50`);
+                if (!res.ok) throw new Error('Search failed');
+                const data = await res.json();
+                if (!data.collection || !data.collection.length) {
+                    scQueue.innerHTML = `<div class="empty-state"><span class="material-symbols-outlined">search_off</span><p>No results for "${esc(query)}"</p></div>`;
+                    return;
+                }
+                renderSCSearchResults(data.collection);
+            } catch (e) {
+                scQueue.innerHTML = `<div class="empty-state"><span class="material-symbols-outlined">wifi_off</span><p>SoundCloud search failed.<br>Check connection or try a URL.</p></div>`;
+            }
+        }
+
+        function renderSCSearchResults(results) {
+            scQueue.innerHTML = results.map(track => {
+                const art = track.artwork_url || '';
+                return `
+                <div class="result-item" data-url="${esc(track.permalink_url)}">
+                    <img class="result-thumb" src="${esc(art || '')}" alt="" onerror="this.style.background='var(--surface-2)'">
+                    <div class="result-info">
+                        <div class="result-name">${esc(track.title)}</div>
+                        <div class="result-channel">${esc(track.user.username)}</div>
+                    </div>
+                </div>`;
+            }).join('');
+
+            scQueue.querySelectorAll('.result-item').forEach(el => {
+                el.addEventListener('click', () => loadSCUrl(el.dataset.url));
+            });
+        }
+
+        function renderSCWidgetQueue() {
+            if (!scSounds.length) {
+                scQueue.innerHTML = `<div class="empty-state">
+                    <span class="material-symbols-outlined">queue_music</span>
+                    <p>No tracks in queue</p>
+                </div>`;
+                return;
+            }
+            const curId = scCurrentSound ? scCurrentSound.id : null;
+            scQueue.innerHTML = scSounds.map((s, i) => {
+                const art     = s.artwork_url || '';
+                const playing = curId && s.id === curId;
+                return `<div class="result-item ${playing ? 'playing' : ''}" data-idx="${i}">
+                    ${art
+                        ? `<img class="result-thumb" src="${esc(art)}" alt="" onerror="this.style.background='var(--surface-2)'">`
+                        : '<div class="result-thumb"></div>'}
+                    <div class="result-info">
+                        <div class="result-name">${esc(s.title || 'Untitled')}</div>
+                        <div class="result-channel">${esc(s.user ? s.user.username : '')}</div>
+                    </div>
+                </div>`;
+            }).join('');
+            scQueue.querySelectorAll('.result-item').forEach(el =>
+                el.addEventListener('click', () => {
+                    if (scWidget && scReady) scWidget.skip(+el.dataset.idx);
+                })
+            );
+        }
+
+        // ═══════════════════════════════════════════════════════
+        // AUDIO SETUP  (Jamendo — native <audio>)
+        // ═══════════════════════════════════════════════════════
+
+        function setupAudio() {
+            audio.addEventListener('loadedmetadata', () => {
+                timeDur.textContent  = fmt(audio.duration);
+                timeCur.textContent  = '0:00';
+                progFill.style.width = '0%';
+            });
+            audio.addEventListener('timeupdate', () => {
+                if (!audio.duration) return;
+                timeCur.textContent  = fmt(audio.currentTime);
+                progFill.style.width = `${(audio.currentTime / audio.duration) * 100}%`;
+            });
+            audio.addEventListener('ended', () => {
+                if (repeat) { audio.currentTime = 0; audio.play(); }
+                else nextTrack();
+            });
+            audio.addEventListener('play',  () => { playIcon.textContent = 'pause';      nowArt.classList.add('playing');    broadcastState(); });
+            audio.addEventListener('pause', () => { playIcon.textContent = 'play_arrow'; nowArt.classList.remove('playing'); broadcastState(); });
+            audio.addEventListener('error', () => { nowTitle.textContent = 'Playback error'; playIcon.textContent = 'play_arrow'; });
+        }
+
+        // ═══════════════════════════════════════════════════════
+        // CONTROLS
+        // ═══════════════════════════════════════════════════════
+
+        btnPlay.addEventListener('click', () => {
+            if (activeSource === 'jamendo') {
+                if (audio.paused) audio.play();
+                else              audio.pause();
+            } else if (activeSource === 'soundcloud' && scWidget && scReady) {
+                scWidget.isPaused(paused => { paused ? scWidget.play() : scWidget.pause(); });
+            }
+        });
+
+        btnPrev.addEventListener('click', prevTrack);
+        btnNext.addEventListener('click', nextTrack);
+        btnShuffle.addEventListener('click', () => { shuffle = !shuffle; btnShuffle.classList.toggle('active-btn', shuffle); });
+        btnRepeat.addEventListener('click',  () => { repeat  = !repeat;  btnRepeat.classList.toggle('active-btn',  repeat);  });
+
+        function nextTrack() {
+            if (activeSource === 'jamendo') {
+                if (!jamTracks.length) return;
+                let idx = jamTracks.findIndex(t => currentTrack && t.id === currentTrack.id);
+                idx = shuffle ? Math.floor(Math.random() * jamTracks.length) : (idx + 1) % jamTracks.length;
+                playJamTrack(jamTracks[idx].id);
+            } else if (activeSource === 'soundcloud' && scWidget && scReady) {
+                scWidget.next();
+            }
+        }
+
+        function prevTrack() {
+            if (activeSource === 'jamendo') {
+                if (!jamTracks.length) return;
+                let idx = jamTracks.findIndex(t => currentTrack && t.id === currentTrack.id);
+                idx = idx > 0 ? idx - 1 : jamTracks.length - 1;
+                playJamTrack(jamTracks[idx].id);
+            } else if (activeSource === 'soundcloud' && scWidget && scReady) {
+                scWidget.prev();
+            }
+        }
+
+        // Progress seek
+        progOuter.addEventListener('click', e => {
+            const pct = (e.clientX - progOuter.getBoundingClientRect().left) / progOuter.offsetWidth;
+            if (activeSource === 'jamendo' && audio.duration) {
+                audio.currentTime = pct * audio.duration;
+            } else if (activeSource === 'soundcloud' && scWidget && scReady && scDurationMs) {
+                scWidget.seekTo(Math.floor(pct * scDurationMs));
+            }
+        });
+
+        // Volume
+        volSlider.addEventListener('input', () => {
+            vol = +volSlider.value;
+            audio.volume = vol / 100;
+            if (scWidget && scReady) scWidget.setVolume(vol);
+            volIcon.textContent = vol === 0 ? 'volume_off' : vol < 50 ? 'volume_down' : 'volume_up';
+        });
+
+        // ═══════════════════════════════════════════════════════
+        // HELPERS
+        // ═══════════════════════════════════════════════════════
+
+        function setNowPlaying(title, artist, artUrl, linkUrl, source) {
+            nowTitle.textContent   = title  || 'Unknown';
+            nowChannel.textContent = artist || '';
+            if (artUrl) {
+                nowArt.src = artUrl;
+                nowArt.style.display         = 'block';
+                artPlaceholder.style.display = 'none';
+            } else {
+                nowArt.style.display         = 'none';
+                artPlaceholder.style.display = 'flex';
+            }
+            srcIcon.textContent     = source === 'jamendo' ? 'music_note' : 'cloud_queue';
+            sourceLabel.textContent = source === 'jamendo' ? 'Streaming via Jamendo' : 'Streaming via SoundCloud';
+            if (linkUrl) {
+                srcLink.href          = linkUrl;
+                srcLink.textContent   = source === 'jamendo' ? 'Jamendo ↗' : 'SoundCloud ↗';
+                srcLink.style.display = 'inline';
+            } else {
+                srcLink.style.display = 'none';
+            }
+            localStorage.setItem('aura_music_state', JSON.stringify({ title, artist, artUrl, source }));
+        }
+
+        function fmt(sec) {
+            if (!isFinite(sec) || isNaN(sec)) return '0:00';
+            sec = Math.floor(sec);
+            return Math.floor(sec / 60) + ':' + String(sec % 60).padStart(2, '0');
+        }
+
+        function esc(s) {
+            return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+        }
+
+        function loadingDots() {
+            return `<div class="loading-dots">
+                <div class="loading-dot"></div>
+                <div class="loading-dot"></div>
+                <div class="loading-dot"></div>
+            </div>`;
+        }
+
+        backBtn.addEventListener('click', () => window.location.href = 'index.html');
+
+        // BroadcastChannel
+        function setupBroadcast() {
+            try {
+                bc = new BroadcastChannel('aura_music');
+                bc.onmessage = e => {
+                    const t = e.data.type;
+                    if      (t === 'play' || t === 'pause') btnPlay.click();
+                    else if (t === 'next') btnNext.click();
+                    else if (t === 'prev') btnPrev.click();
+                };
+            } catch {}
+        }
+
+        function broadcastState() {
+            if (!bc) return;
+            const playing = activeSource === 'jamendo' ? !audio.paused : scIsPlaying;
+            bc.postMessage({
+                type:   'state',
+                title:  nowTitle.textContent,
+                artist: nowChannel.textContent,
+                art:    nowArt.style.display !== 'none' ? nowArt.src : null,
+                playing,
+                source: activeSource
+            });
+        }
+
+        // Custom Cursor
+        function setupCursor() {
+            const dot  = document.getElementById('cursor-dot');
+            const ring = document.getElementById('cursor-ring');
+            let mx = 0, my = 0, rx = 0, ry = 0;
+            document.addEventListener('mousemove', e => {
+                mx = e.clientX; my = e.clientY;
+                dot.style.left = mx + 'px';
+                dot.style.top  = my + 'px';
+            });
+            document.addEventListener('mousedown', () => document.body.classList.add('cursor-click'));
+            document.addEventListener('mouseup',   () => document.body.classList.remove('cursor-click'));
+            document.querySelectorAll('button, a, .result-item, .src-tab, .sc-chip, .tb-back, .tb-key-btn').forEach(el => {
+                el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'));
+                el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'));
+            });
+            (function animRing() {
+                rx += (mx - rx) * 0.12;
+                ry += (my - ry) * 0.12;
+                ring.style.left = rx + 'px';
+                ring.style.top  = ry + 'px';
+                requestAnimationFrame(animRing);
+            })();
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Aura — Sign In</title>
+    <link rel="icon" href="/favicon.ico" sizes="any">
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+    <style>
+        :root {
+            --accent: #8b5cf6;
+            --accent-mac: #a78bfa;
+            --text-primary: rgba(255,245,255,0.93);
+            --text-secondary: rgba(210,180,255,0.55);
+            --text-tertiary: rgba(180,140,255,0.30);
+            --surface-1: rgba(160,100,255,0.05);
+            --surface-2: rgba(160,100,255,0.08);
+            --surface-hover: rgba(160,100,255,0.13);
+            --glass-border: rgba(180,130,255,0.13);
+            --font: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            background: #07040f;
+            color: var(--text-primary);
+            font-family: var(--font);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Background — identical to setup.html */
+        .bg {
+            position: fixed;
+            inset: 0;
+            background:
+                radial-gradient(ellipse 70% 60% at 15% 40%, rgba(120,40,220,0.30) 0%, transparent 55%),
+                radial-gradient(ellipse 60% 70% at 85% 70%, rgba(80,10,160,0.24) 0%, transparent 55%),
+                radial-gradient(ellipse 50% 50% at 60% 15%, rgba(160,60,255,0.16) 0%, transparent 55%),
+                radial-gradient(ellipse 40% 40% at 40% 85%, rgba(100,20,200,0.18) 0%, transparent 55%),
+                #07040f;
+            z-index: 0;
+        }
+
+        canvas#bg-canvas {
+            position: fixed;
+            inset: 0;
+            width: 100%; height: 100%;
+            z-index: 0;
+            opacity: 0.4;
+            pointer-events: none;
+        }
+
+        /* Page wrapper */
+        .page {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            max-width: 460px;
+            padding: 20px;
+            animation: pageIn .45s cubic-bezier(.34,1.2,.64,1) both;
+        }
+        @keyframes pageIn {
+            from { opacity: 0; transform: translateY(16px); }
+            to   { opacity: 1; transform: none; }
+        }
+        .page.out {
+            opacity: 0;
+            transition: opacity .4s;
+        }
+
+        /* Card — identical to setup.html */
+        .card {
+            background: rgba(20, 10, 40, 0.78);
+            border: 1px solid rgba(180,130,255,0.18);
+            border-radius: 26px;
+            padding: 40px 40px 36px;
+            backdrop-filter: blur(40px) saturate(160%);
+            -webkit-backdrop-filter: blur(40px) saturate(160%);
+            box-shadow:
+                0 40px 80px rgba(0,0,0,0.55),
+                0 0 60px rgba(100,40,200,0.12),
+                inset 0 1px 0 rgba(200,160,255,0.10);
+        }
+
+        /* Logo */
+        .logo {
+            font-size: 36px;
+            font-weight: 700;
+            letter-spacing: -1.5px;
+            background: linear-gradient(135deg, #fff 0%, #d8b4fe 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 3px;
+        }
+        .tagline {
+            font-size: 13px;
+            color: var(--text-tertiary);
+            margin-bottom: 28px;
+        }
+
+        /* Clock */
+        .clock-row {
+            display: flex;
+            align-items: baseline;
+            gap: 0;
+            margin-bottom: 6px;
+        }
+        .time-big {
+            font-size: 56px;
+            font-weight: 200;
+            letter-spacing: -2px;
+            line-height: 1;
+            color: var(--text-primary);
+            font-variant-numeric: tabular-nums;
+        }
+        .time-big .colon {
+            animation: blinkColon 1s step-end infinite;
+            display: inline-block;
+        }
+        @keyframes blinkColon { 0%,49%{opacity:1} 50%,100%{opacity:.18} }
+        .date-small {
+            font-size: 12px;
+            font-weight: 400;
+            color: var(--text-tertiary);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 28px;
+        }
+
+        /* Divider */
+        .divider {
+            height: 1px;
+            background: var(--glass-border);
+            margin-bottom: 24px;
+        }
+
+        /* User row */
+        .user-row {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 24px;
+        }
+        .avatar {
+            width: 48px; height: 48px;
+            border-radius: 50%;
+            background: rgba(139,92,246,0.15);
+            border: 1.5px solid rgba(167,139,250,0.3);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 22px;
+            flex-shrink: 0;
+            overflow: hidden;
+        }
+        .avatar img { width: 100%; height: 100%; object-fit: cover; }
+        .avatar .av-icon { font-size: 24px; color: rgba(255,255,255,.55); }
+        .user-info { flex: 1; min-width: 0; }
+        .user-name {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 2px;
+        }
+        .user-sub {
+            font-size: 12px;
+            color: var(--text-tertiary);
+        }
+
+        /* PIN dots */
+        .pin-section { margin-bottom: 16px; }
+        .pin-label {
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: .10em;
+            text-transform: uppercase;
+            color: var(--text-tertiary);
+            margin-bottom: 12px;
+        }
+        .pin-dots {
+            display: flex;
+            gap: 14px;
+            align-items: center;
+        }
+        .pin-dot {
+            width: 13px; height: 13px;
+            border-radius: 50%;
+            background: rgba(255,255,255,.1);
+            border: 1.5px solid rgba(180,130,255,.2);
+            transition: background .14s, border-color .14s, transform .14s, box-shadow .14s;
+        }
+        .pin-dot.filled {
+            background: var(--accent-mac);
+            border-color: var(--accent-mac);
+            box-shadow: 0 0 8px rgba(167,139,250,.65);
+            transform: scale(1.18);
+        }
+        .pin-dot.bad {
+            background: #f87171;
+            border-color: #f87171;
+            box-shadow: 0 0 8px rgba(248,113,113,.65);
+        }
+        .pin-dots.shake { animation: shake .38s ease; }
+        @keyframes shake {
+            0%,100%{transform:translateX(0)} 16%{transform:translateX(-7px)}
+            33%{transform:translateX(7px)} 50%{transform:translateX(-4px)}
+            66%{transform:translateX(4px)} 83%{transform:translateX(-2px)}
+        }
+
+        /* Hidden PIN input */
+        #pin-input {
+            position: absolute; opacity: 0;
+            width: 1px; height: 1px;
+            left: -9999px; top: -9999px;
+        }
+
+        /* No-PIN unlock zone */
+        #no-pin-zone {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            gap: 18px;
+            padding: 8px 0 4px;
+            cursor: pointer;
+        }
+        #no-pin-zone.visible { display: flex; }
+
+        .unlock-icon-wrap {
+            position: relative;
+            width: 72px; height: 72px;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .unlock-pulse {
+            position: absolute; inset: 0;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(139,92,246,.28) 0%, transparent 70%);
+            animation: unlockPulse 2.4s ease-in-out infinite;
+        }
+        .unlock-pulse-2 {
+            position: absolute; inset: -10px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(139,92,246,.12) 0%, transparent 70%);
+            animation: unlockPulse 2.4s ease-in-out infinite .6s;
+        }
+        @keyframes unlockPulse {
+            0%,100% { transform: scale(1); opacity: .6; }
+            50%      { transform: scale(1.18); opacity: 1; }
+        }
+        .unlock-icon-circle {
+            position: relative; z-index: 1;
+            width: 56px; height: 56px;
+            border-radius: 50%;
+            background: rgba(139,92,246,.12);
+            border: 1.5px solid rgba(167,139,250,.3);
+            display: flex; align-items: center; justify-content: center;
+            transition: background .2s, border-color .2s, transform .2s;
+        }
+        #no-pin-zone:hover .unlock-icon-circle {
+            background: rgba(139,92,246,.22);
+            border-color: rgba(167,139,250,.6);
+            transform: scale(1.07);
+        }
+        .unlock-icon-circle .material-symbols-outlined {
+            font-size: 26px;
+            color: var(--accent-mac);
+        }
+        .unlock-label {
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--text-tertiary);
+            letter-spacing: .06em;
+            text-align: center;
+        }
+        #no-pin-zone:hover .unlock-label { color: var(--text-secondary); }
+
+        /* Button — identical to setup.html .btn */
+        .btn {
+            width: 100%;
+            background: linear-gradient(135deg, #7c3aed 0%, #a78bfa 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 12px;
+            font-size: 14px;
+            font-weight: 600;
+            font-family: var(--font);
+            cursor: pointer;
+            transition: filter .2s, transform .15s, box-shadow .2s;
+            box-shadow: 0 4px 20px rgba(124,58,237,.45);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 6px;
+        }
+        .btn:hover { filter: brightness(1.1); transform: translateY(-1px); box-shadow: 0 8px 28px rgba(124,58,237,.6); }
+        .btn:active { transform: translateY(0); filter: brightness(.97); }
+        .btn .material-symbols-outlined { font-size: 18px; }
+
+        /* Error — identical to setup.html */
+        .error {
+            font-size: 12px;
+            color: #ff5f57;
+            margin-top: 8px;
+            min-height: 16px;
+            display: none;
+            text-align: center;
+        }
+        .error.show { display: block; }
+
+        /* Wordmark — identical to setup.html */
+        .wordmark {
+            position: fixed;
+            bottom: 22px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 11px;
+            color: rgba(180,130,255,.22);
+            letter-spacing: .15em;
+            text-transform: uppercase;
+            font-weight: 600;
+            z-index: 1;
+            white-space: nowrap;
+        }
+
+        @media (max-width: 480px) {
+            .page { padding: 12px; max-width: 100%; }
+            .card { padding: 28px 22px 24px; border-radius: 20px; }
+            .logo { font-size: 30px; }
+            .time-big { font-size: 44px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="bg"></div>
+<canvas id="bg-canvas"></canvas>
+
+<div class="page" id="page">
+    <div class="card">
+        <div class="logo">Aura</div>
+        <div class="tagline">Welcome back</div>
+
+        <!-- Clock -->
+        <div class="clock-row">
+            <div class="time-big">
+                <span id="th">00</span><span class="colon">:</span><span id="tm">00</span>
+            </div>
+        </div>
+        <div class="date-small" id="date-display">Monday, January 1</div>
+
+        <div class="divider"></div>
+
+        <!-- User -->
+        <div class="user-row">
+            <div class="avatar" id="avatar">
+                <span class="av-icon material-symbols-outlined">person</span>
+            </div>
+            <div class="user-info">
+                <div class="user-name" id="uname">Aura OS</div>
+                <div class="user-sub" id="usub">Enter PIN to continue</div>
+            </div>
+        </div>
+
+        <!-- PIN -->
+        <div class="pin-section" id="pin-section">
+            <div class="pin-label">4-digit PIN</div>
+            <div class="pin-dots" id="dots">
+                <div class="pin-dot"></div>
+                <div class="pin-dot"></div>
+                <div class="pin-dot"></div>
+                <div class="pin-dot"></div>
+            </div>
+        </div>
+
+        <!-- No-PIN sign in -->
+        <div id="no-pin-zone">
+            <div class="unlock-icon-wrap">
+                <div class="unlock-pulse"></div>
+                <div class="unlock-pulse-2"></div>
+                <div class="unlock-icon-circle">
+                    <span class="material-symbols-outlined">lock_open</span>
+                </div>
+            </div>
+            <div class="unlock-label">Click anywhere to sign in</div>
+        </div>
+
+        <div class="error" id="err">Incorrect PIN — try again</div>
+    </div>
+</div>
+
+<div class="wordmark">AURA OS v1.5-alpha</div>
+
+<!-- Hidden input to capture keystrokes -->
+<input id="pin-input" type="password" inputmode="numeric" autocomplete="off" maxlength="4">
+
+<script>
+// Guards
+if (localStorage.getItem('aura_setup_done') !== 'true') window.location.replace('setup.html');
+else if (sessionStorage.getItem('aura_logged_in') === 'true') window.location.replace('index.html');
+
+// Canvas particles (matches setup.html opacity 0.4 treatment)
+(function () {
+    const c = document.getElementById('bg-canvas');
+    const ctx = c.getContext('2d');
+    let w, h, pts = [];
+    function resize() { w = c.width = innerWidth; h = c.height = innerHeight; }
+    function init() {
+        pts = Array.from({ length: 120 }, () => ({
+            x: Math.random() * w, y: Math.random() * h,
+            r: Math.random() * .7 + .1,
+            a: Math.random() * .5 + .05,
+            da: (Math.random() - .5) * .002,
+            dx: (Math.random() - .5) * .04,
+            dy: (Math.random() - .5) * .04
+        }));
+    }
+    function draw() {
+        ctx.clearRect(0, 0, w, h);
+        pts.forEach(p => {
+            p.a += p.da; if (p.a > .55 || p.a < .04) p.da *= -1;
+            p.x += p.dx; p.y += p.dy;
+            if (p.x < 0) p.x = w; if (p.x > w) p.x = 0;
+            if (p.y < 0) p.y = h; if (p.y > h) p.y = 0;
+            ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(200,180,255,${p.a})`; ctx.fill();
+        });
+        requestAnimationFrame(draw);
+    }
+    window.addEventListener('resize', () => { resize(); init(); });
+    resize(); init(); draw();
+})();
+
+// Clock
+(function () {
+    const DAYS = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+    const MONS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+    function tick() {
+        const n = new Date();
+        document.getElementById('th').textContent = String(n.getHours()).padStart(2,'0');
+        document.getElementById('tm').textContent = String(n.getMinutes()).padStart(2,'0');
+        document.getElementById('date-display').textContent =
+            `${DAYS[n.getDay()]}, ${MONS[n.getMonth()]} ${n.getDate()}`;
+    }
+    tick(); setInterval(tick, 1000);
+})();
+
+// Login logic
+(function () {
+    const hasPIN   = !!localStorage.getItem('aura_pin');
+    const savedPIN = localStorage.getItem('aura_pin') || '';
+    const uname    = localStorage.getItem('aura_username') || 'Aura OS';
+    const avImg    = localStorage.getItem('aura_avatar_img');
+    const avEmoji  = localStorage.getItem('aura_avatar');
+
+    // User info
+    document.getElementById('uname').textContent = uname;
+    const av = document.getElementById('avatar');
+    if (avImg) {
+        av.innerHTML = `<img src="${avImg}" alt="">`;
+    } else if (avEmoji) {
+        av.innerHTML = `<span style="font-size:22px">${avEmoji}</span>`;
+    }
+
+    const dots       = document.querySelectorAll('.pin-dot');
+    const dotsWrap   = document.getElementById('dots');
+    const pinSection = document.getElementById('pin-section');
+    const noPinZone  = document.getElementById('no-pin-zone');
+    const err        = document.getElementById('err');
+    const pinInput   = document.getElementById('pin-input');
+    const usub       = document.getElementById('usub');
+    const page       = document.getElementById('page');
+    let entry = '';
+
+    if (!hasPIN) {
+        pinSection.style.display = 'none';
+        noPinZone.classList.add('visible');
+        usub.textContent = 'Personal Computer';
+    }
+
+    function updateDots() {
+        dots.forEach((d, i) => {
+            d.classList.toggle('filled', i < entry.length);
+            d.classList.remove('bad');
+        });
+    }
+
+    function doLogin() {
+        page.classList.add('out');
+        setTimeout(() => {
+            sessionStorage.setItem('aura_logged_in', 'true');
+            window.location.replace('index.html');
+        }, 400);
+    }
+
+    function showError() {
+        dots.forEach(d => { d.classList.remove('filled'); d.classList.add('bad'); });
+        dotsWrap.classList.remove('shake');
+        void dotsWrap.offsetWidth;
+        dotsWrap.classList.add('shake');
+        err.classList.add('show');
+        entry = '';
+        setTimeout(() => {
+            err.classList.remove('show');
+            dots.forEach(d => d.classList.remove('bad'));
+            pinInput.focus();
+        }, 1500);
+    }
+
+    function trySubmit() {
+        if (entry === savedPIN) doLogin();
+        else showError();
+    }
+
+    pinInput.addEventListener('keydown', e => {
+        if (e.key === 'Backspace') {
+            e.preventDefault();
+            entry = entry.slice(0, -1);
+            updateDots();
+        } else if (e.key >= '0' && e.key <= '9' && entry.length < 4) {
+            e.preventDefault();
+            entry += e.key;
+            updateDots();
+            if (entry.length === 4) setTimeout(trySubmit, 180);
+        } else if (e.key === 'Enter') {
+            e.preventDefault();
+            if (hasPIN && entry.length > 0) trySubmit();
+            else if (!hasPIN) doLogin();
+        } else if (e.key.length === 1) {
+            e.preventDefault();
+        }
+    });
+
+    noPinZone.addEventListener('click', doLogin);
+
+    document.addEventListener('click', e => {
+        if (!hasPIN) doLogin();
+        else pinInput.focus();
+    });
+    document.addEventListener('keydown', () => pinInput.focus());
+    pinInput.addEventListener('blur', () => {
+        if (hasPIN) setTimeout(() => pinInput.focus(), 50);
+    });
+    setTimeout(() => pinInput.focus(), 80);
+})();
+</script>
+</body>
+</html>
